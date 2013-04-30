@@ -1,7 +1,7 @@
 all: timeline.js
 
 timeline.js: 
-	cat links.TimeLine.js links.TimeLine.prototype.js links.TimeLine.Item.js links.TimeLine.ItemBox.js links.TimeLine.ItemDot.js links.TimeLine.ItemRange.js links.TimeLine.ClusterGenerator.js links.TimeLine.StepDate.js > timeline.js
+	cat ./src/links.TimeLine.js ./src/links.TimeLine.prototype.js ./src/links.TimeLine.Item.js ./src/links.TimeLine.ItemBox.js ./src/links.TimeLine.ItemDot.js ./src/links.TimeLine.ItemRange.js ./src/links.TimeLine.ClusterGenerator.js ./src/links.TimeLine.StepDate.js > timeline.js
 
 clean:
-	rm -rf ./timeline.js
+	rm -rf timeline.js
