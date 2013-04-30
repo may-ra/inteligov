@@ -1,0 +1,90 @@
+<html>
+	<head>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript" src="timeline.js"></script>
+		<link rel="stylesheet" type="text/css" href="../timeline.css">
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+		<title>TimeLine Test</title>
+	</head>
+	<body>
+		<div id="timeline"></div>
+
+		<script type="text/javascript">
+
+			var data = data = [
+                {
+                    'start': new Date(2010,7,23),
+                    'color': '#487346',
+                    'content': '<div style="background-color:white;width:100%;height:100%;">test</div>'
+                },
+                {
+                    'start': new Date(2010,7,23),
+                    'color': '#000000',
+                    'content': ''
+                },
+                {
+                    'start': new Date(2010,7,23,23,0,0),
+                    'content': ''
+                },
+                {
+                    'start': new Date(2010,7,24,16,0,0),
+                    'content': ''
+                },
+                {
+                    'start': new Date(2010,7,26),
+                    'end': new Date(2010,8,2),
+                    'content': ''
+                },
+                {
+                    'start': new Date(2010,7,28),
+                    'content': ''
+                },
+                {
+                    'start': new Date(2010,7,29),
+                    'content': ''
+                },
+                {
+                    'start': new Date(2010,7,31),
+                    'end': new Date(2010,8,3),
+                    'content': ''
+                },
+                {
+                    'start': new Date(2010,8,4,12,0,0),
+                    'content': ''
+                }
+            ];
+
+			// specify options
+            var options = {
+                'width':  '100%',
+                'height': '300px',
+                'editable': false,
+                'style': 'dot',
+                'cluster': false
+            };
+
+            // Instantiate our timeline object.
+            timeline = new links.Timeline(document.getElementById('timeline'));
+
+            links.events.addListener(timeline, 'select', function(){
+            	//console.log(arguments);
+            	//console.log(timeline.getSelection());
+            });
+
+            links.events.addListener(timeline, 'add', function(){
+            	console.log("add");
+            });
+
+            // Draw our timeline with the created data and options
+            timeline.draw(data, options);
+
+            links.events.addListener(timeline, 'add', function(){
+                console.log("add");
+            });
+
+
+		</script>
+	</body>
+</html
