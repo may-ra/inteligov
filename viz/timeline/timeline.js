@@ -6302,4 +6302,10 @@ links.Timeline.StepDate.prototype.addZeros = function(value, len) {
         str = "0" + str;
     }
     return str;
-};
+};/**/
+
+links.TimeLine.ContentGenerator = function(){};/*
+*
+*/
+
+links.Timeline.ContentGeneratorFactory = function(){};
