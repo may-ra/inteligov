@@ -2693,6 +2693,7 @@ links.Timeline.prototype.onDblClick = function (event) {
  * Code from http://adomas.org/javascript-mouse-wheel/
  * @param {Event}  event   The event
  */
+ //s
 links.Timeline.prototype.onMouseWheel = function(event) {
     if (!this.options.zoomable)
         return;
@@ -2825,6 +2826,7 @@ links.Timeline.prototype.move = function(moveFactor) {
  * @param {Date} end
  * @param {Date}   zoomAroundDate  Optional. Date around which will be zoomed.
  */
+ //s
 links.Timeline.prototype.applyRange = function (start, end, zoomAroundDate) {
     // calculate new start and end value
     var startValue = start.valueOf(); // number
@@ -2849,6 +2851,7 @@ links.Timeline.prototype.applyRange = function (start, end, zoomAroundDate) {
     // determine min and max date value
     var min = options.min ? options.min.valueOf() : undefined; // number
     var max = options.max ? options.max.valueOf() : undefined; // number
+    
     if (min != undefined && max != undefined) {
         if (min >= max) {
             // empty range
