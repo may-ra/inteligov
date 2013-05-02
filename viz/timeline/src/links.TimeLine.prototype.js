@@ -104,15 +104,13 @@ links.Timeline.prototype.setData = function(data) {
     this.stackCancelAnimation();
     this.clearItems();
     this.data = data;
-    var items = this.items;
+    var l = data.length, items = this.items = new Array(l);
     this.deleteGroups();
 
     if (links.Timeline.isArray(data)) {
         // read JSON array
-        for (var row = 0, rows = data.length; row < rows; row++) {
-            var itemData = data[row];
-            var item = this.createItem(itemData);
-            items.push(item);
+        for (;l--;) {
+            items[l] = this.createItem(data[l]);
         }
     }
     else {
@@ -455,8 +453,11 @@ links.Timeline.prototype.repaint = function() {
     var axisNeedsReflow  = this.repaintAxis();
     var groupsNeedsReflow  = this.repaintGroups();
     var itemsNeedsReflow = this.repaintItems();
+    var fragment = document.createDocumentFragment();
     this.repaintCurrentTime();
     this.repaintCustomTime();
+
+    this.dom.container.appendChild(fragment.appendChild(this.dom.frame));
 
     return (frameNeedsReflow || axisNeedsReflow || groupsNeedsReflow || itemsNeedsReflow);
 };
@@ -501,7 +502,7 @@ links.Timeline.prototype.repaintFrame = function() {
         dom.frame.className = "timeline-frame";
         dom.frame.style.position = "relative";
         dom.frame.style.overflow = "hidden";
-        dom.container.appendChild(dom.frame);
+        //dom.container.appendChild(dom.frame);
         needsReflow = true;
     }
 
@@ -640,11 +641,8 @@ links.Timeline.prototype.repaintAxis = function() {
         size = this.size,
         step = this.step;
 
-    var axis = dom.axis;
-    if (!axis) {
-        axis = {};
-        dom.axis = axis;
-    }
+    var axis = dom.axis = dom.axis || {};
+
     if (!size.axis.properties) {
         size.axis.properties = {};
     }
@@ -2590,18 +2588,12 @@ links.Timeline.prototype.onMouseUp = function (event) {
                 // select/unselect item
                 if (params.itemIndex != undefined) {
                     if (!this.isSelected(params.itemIndex)) {
-                        console.log(params.itemIndex);
                         this.selectItem(params.itemIndex);
-                        //this.changeItem(params.itemIndex,{},false,'box');
                         this.trigger('select',params);       
                     } else {
-                        //this.changeItem(params.itemIndex,{},false,'dot');
                         this.unselectItem(params.itemIndex);
                     }
-                } else {
-                    //this.unselectItem();
-                    this.trigger('select',event);
-                }
+                } 
             }
         }
         else {
@@ -3154,13 +3146,12 @@ links.Timeline.prototype.createItem = function(itemData, type) {
         className: itemData.className,
         editable: itemData.editable,
         group: this.getGroup(itemData.group),
-        color: d3.rgb(itemData.color)
+        color: itemData.color
     };
     // TODO: optimize this, when creating an item, all data is copied twice...
 
     // TODO: is initialTop needed?
-    var initialTop,
-        options = this.options;
+    var initialTop, options = this.options;
     if (options.axisOnTop) {
         initialTop = this.size.axis.height + options.eventMarginAxis + options.eventMargin / 2;
     }
@@ -3417,16 +3408,17 @@ links.Timeline.prototype.isSelected = function (index) {
  */
 links.Timeline.prototype.unselectItem = function unselectItem(index) {
     var position;
-    if(arguments.length > 0) {
+    if(arguments.length === 1) {
         if (index >= 0 && this.selection.length > 0 && (position = this.selection.indexOf(index)) >= 0) {
             var item = this.items[index];
-            this.changeItem(index, {}, false, item.end?'range':'dot');
 
             if (item && item.dom) {
                 var domItem = item.dom;
                 domItem.style.cursor = '';
                 item.unselect();
             }
+            this.changeItem(index, {}, false, item.end?'range':'dot');
+
             this.selection.splice(position,1);
             this.repaintDeleteButton();
             this.repaintDragAreas();

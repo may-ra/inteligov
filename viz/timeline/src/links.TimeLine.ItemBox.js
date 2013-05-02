@@ -24,15 +24,23 @@ links.Timeline.ItemBox.prototype.reflow = function () {
     var dom = this.dom,
         dotHeight = dom.dot.offsetHeight,
         dotWidth = dom.dot.offsetWidth,
+        //dotEndHeight = dom.dotEnd.offsetHeight,
+        //dotEndWidth = dom.dotEnd.offsetWidth,
         lineWidth = dom.line.offsetWidth,
         resized = (
             (this.dotHeight != dotHeight) ||
                 (this.dotWidth != dotWidth) ||
-                (this.lineWidth != lineWidth)
+                (this.lineWidth != lineWidth) //||
+                //(this.dotEndHeight != dotEndHeight) ||
+                //(this.dotEndWidth != dotEndWidth)
             );
+
+    //this.dotHeight = dotHeight;
+    //this.dotWidth = dotWidth;
 
     this.dotHeight = dotHeight;
     this.dotWidth = dotWidth;
+    
     this.lineWidth = lineWidth;
 
     return resized;
@@ -47,6 +55,9 @@ links.Timeline.ItemBox.prototype.select = function () {
     links.Timeline.addClassName(dom, 'timeline-event-selected');
     links.Timeline.addClassName(dom.line, 'timeline-event-selected');
     links.Timeline.addClassName(dom.dot, 'timeline-event-selected');
+
+    dom.dotEnd && links.Timeline.addClassName(dom.dotEnd, 'timeline-event-selected');
+    dom.lineRange && links.Timeline.addClassName(dom.lineRange, 'timeline-event-selected');
 };
 
 /**
@@ -58,6 +69,9 @@ links.Timeline.ItemBox.prototype.unselect = function () {
     links.Timeline.removeClassName(dom, 'timeline-event-selected');
     links.Timeline.removeClassName(dom.line, 'timeline-event-selected');
     links.Timeline.removeClassName(dom.dot, 'timeline-event-selected');
+
+    dom.dotEnd && links.Timeline.removeClassName(dom.dotEnd, 'timeline-event-selected');
+    dom.lineRange && links.Timeline.removeClassName(dom.lineRange, 'timeline-event-selected');
 };
 
 /**
@@ -67,37 +81,53 @@ links.Timeline.ItemBox.prototype.unselect = function () {
  */
 links.Timeline.ItemBox.prototype.createDOM = function () {
     // background box
-    var divBox = document.createElement("DIV");
-    var borderColor = this.color.darker();
+    var divBox = document.createElement("DIV"), divBoxStyle = divBox.style,
+        divLine = document.createElement("DIV"), divLineStyle = divLine.style,
+        divDot = document.createElement("DIV"), divDotStyle = divDot.style,
+        color = this.color.toString(), 
+        borderColor = this.color.darker().toString(), 
+        bgColor = this.color.brighter().toString();
 
-    divBox.style.position = "absolute";
-    divBox.style.left = this.left + "px";
-    divBox.style.top = this.top + "px";
-    divBox.style.backgroundColor = this.color.toString();
-    divBox.style.borderColor = borderColor.toString();
+    console.log(color);
+    console.log([color,borderColor,bgColor]);
+
+    divBoxStyle.left = this.left + "px";
+    divBoxStyle.top = this.top + "px";
 
     // contents box (inside the background box). used for making margins
     var divContent = document.createElement("DIV");
     divContent.className = "timeline-event-content";
+    
     divContent.innerHTML = this.content;
+    
     divBox.appendChild(divContent);
-
-    // line to axis
-    var divLine = document.createElement("DIV");
-    divLine.style.position = "absolute";
-    divLine.style.width = "0px";
-    divLine.style.borderColor = borderColor.toString();
+    
+    divBoxStyle.position = divDotStyle.position = divLineStyle.position = "absolute";
+    divDotStyle.width = divDotStyle.height = divLineStyle.width = "0px";
+    divBoxStyle.backgroundColor = divLineStyle.borderColor = bgColor;
+    divBoxStyle.borderColor = divDotStyle.borderColor = color;
     // important: the vertical line is added at the front of the list of elements,
     // so it will be drawn behind all boxes and ranges
     divBox.line = divLine;
-
-    // dot on axis
-    var divDot = document.createElement("DIV");
-    divDot.style.position = "absolute";
-    divDot.style.width  = "0px";
-    divDot.style.height = "0px";
-    divDot.style.borderColor = borderColor.toString();
     divBox.dot = divDot;
+
+    if(this.end) {
+        var divDotEnd = document.createElement("DIV"),
+            divDotEndStyle = divDotEnd.style,
+            divLineRange = document.createElement("DIV"),
+            divLineRangeStyle = divLineRange.style;
+        
+        divDotEndStyle.borderColor = color;
+        divLineRangeStyle.borderColor = bgColor;
+
+        divDotEndStyle.position = divLineRangeStyle.position = "absolute";
+        divDotEndStyle.height = divDotEndStyle.width = divLineRangeStyle.height = "0px";
+
+        divLineRangeStyle.borderStyle = "solid";
+
+        divBox.dotEnd = divDotEnd;
+        divBox.lineRange = divLineRange;   
+    }
 
     this.dom = divBox;
     this.updateDOM();
@@ -112,7 +142,8 @@ links.Timeline.ItemBox.prototype.createDOM = function () {
  * @override
  */
 links.Timeline.ItemBox.prototype.showDOM = function (container) {
-    var dom = this.dom;
+    var fragment = document.createDocumentFragment(), dom = this.dom;
+
     if (!dom) {
         dom = this.createDOM();
     }
@@ -124,11 +155,16 @@ links.Timeline.ItemBox.prototype.showDOM = function (container) {
         }
 
         // append to this container
-        container.appendChild(dom);
-        container.insertBefore(dom.line, container.firstChild);
+        fragment.appendChild(dom);
+        fragment.insertBefore(dom.line, fragment.firstChild);
+        dom.lineRange && fragment.insertBefore(dom.lineRange, fragment.firstChild);
         // Note: line must be added in front of the this,
         //       such that it stays below all this
-        container.appendChild(dom.dot);
+        fragment.appendChild(dom.dot);
+        dom.dotEnd && fragment.appendChild(dom.dotEnd);
+
+        container.appendChild(fragment);
+
         this.rendered = true;
     }
 };
@@ -150,6 +186,13 @@ links.Timeline.ItemBox.prototype.hideDOM = function () {
         if (dom.dot && dom.dot.parentNode) {
             dom.dot.parentNode.removeChild(dom.dot);
         }
+        if (dom.dotEnd && dom.dotEnd.parentNode) {
+            dom.dotEnd.parentNode.removeChild(dom.dotEnd);
+        }
+
+        if (dom.lineRange && dom.lineRange.parentNode) {
+            dom.lineRange.parentNode.removeChild(dom.lineRange);
+        }
         this.rendered = false;
     }
 };
@@ -164,6 +207,8 @@ links.Timeline.ItemBox.prototype.updateDOM = function () {
     if (divBox) {
         var divLine = divBox.line;
         var divDot = divBox.dot;
+        var divDotEnd = divBox.dotEnd;
+        var divLineRange = divBox.lineRange;
 
         // update contents
         divBox.firstChild.innerHTML = this.content;
@@ -172,6 +217,11 @@ links.Timeline.ItemBox.prototype.updateDOM = function () {
         divBox.className = "timeline-event timeline-event-box";
         divLine.className = "timeline-event timeline-event-line";
         divDot.className  = "timeline-event timeline-event-dot";
+
+        if(this.end){
+            divDotEnd.className  = "timeline-event timeline-event-dot";
+            divLineRange.className  = "timeline-event"
+        }
 
         if (this.isCluster) {
             links.Timeline.addClassName(divBox, 'timeline-event-cluster');
@@ -184,6 +234,8 @@ links.Timeline.ItemBox.prototype.updateDOM = function () {
             links.Timeline.addClassName(divBox, this.className);
             links.Timeline.addClassName(divLine, this.className);
             links.Timeline.addClassName(divDot, this.className);
+            divDotEnd && links.Timeline.addClassName(divDotEnd, this.className);
+            divLineRange && links.Timeline.addClassName(divLineRange, this.className); 
         }
 
         // TODO: apply selected className?
@@ -199,7 +251,7 @@ links.Timeline.ItemBox.prototype.updateDOM = function () {
 links.Timeline.ItemBox.prototype.updatePosition = function (timeline) {
     var dom = this.dom;
     if (dom) {
-        var left = timeline.timeToScreen(this.start),
+        var right, left = timeline.timeToScreen(this.start),
             axisOnTop = timeline.options.axisOnTop,
             axisTop = timeline.size.axis.top,
             axisHeight = timeline.size.axis.height,
@@ -219,17 +271,35 @@ links.Timeline.ItemBox.prototype.updatePosition = function (timeline) {
 
         var line = dom.line;
         var dot = dom.dot;
+        var dotEnd = dom.dotEnd;
+        var lineRange = dom.lineRange;
+        
         line.style.left = (left - this.lineWidth/2) + "px";
         dot.style.left = (left - this.dotWidth/2) + "px";
+
+        if(this.end){
+            right = timeline.timeToScreen(this.end);
+            dotEnd.style.left = (right - this.dotWidth/2) + "px";
+
+            lineRange.style.left = (left - this.dotWidth/2) + "px";
+            lineRange.style.width = Math.max(right - left, 1) + "px";
+            lineRange.style.borderWidth = "1px 0 0 0";
+        }
+
+
         if (axisOnTop) {
             line.style.top = axisHeight + "px";
             line.style.height = Math.max(this.top - axisHeight, 0) + "px";
             dot.style.top = (axisHeight - this.dotHeight/2) + "px";
+            dotEnd && (dotEnd.style.top = (axisHeight - this.dotHeight/2) + "px");
+            lineRange && (lineRange.style.top = axisHeight + "px");
         }
         else {
             line.style.top = (this.top + this.height) + "px";
             line.style.height = Math.max(axisTop - this.top - this.height, 0) + "px";
             dot.style.top = (axisTop - this.dotHeight/2) + "px";
+            dotEnd && (dotEnd.style.top = (axisTop - this.dotHeight/2) + "px");
+            lineRange && (lineRange.style.top = axisTop + "px");
         }
     }
 };
