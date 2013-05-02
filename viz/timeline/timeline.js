@@ -5993,12 +5993,9 @@ links.Timeline.StepDate.prototype.next = function() {
             case links.Timeline.StepDate.SCALE.DAY:
                 //this is a fast patch for prevent the ugly overlap in the number 31 and the 1, its ugly and not the best
                 //way but its just a quick fix.
-                if(this.step == 2 && this.current.getDate() == 31) 
-                    this.current.setDate(32);
-                else if(this.step == 5 && this.current.getDate() == 31)
-                    this.current.setDate(32);
+                (this.current.getDate() === 31) && this.current.setDate(32);
                 //finish
-                else if(this.current.getDate() < this.step+1) this.current.setDate(1);
+                (this.current.getDate() < this.step+1) && this.current.setDate(1);
                 break;
             case links.Timeline.StepDate.SCALE.MONTH:        
                 if(this.current.getMonth() < this.step) this.current.setMonth(0);  
