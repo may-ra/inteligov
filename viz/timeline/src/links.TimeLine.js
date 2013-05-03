@@ -122,7 +122,7 @@ links.Timeline = function(container) {
     this.currentClusters = [];
     this.selection = []; // stores index and item which is currently selected
 
-    this.contentGenerator = new links.TimeLine.ContentGenerator(new links.TimeLine.TableContentFactory());
+    this.contentGenerator = new links.Timeline.ContentGenerator(new links.Timeline.TableContentFactory());
 
     this.listeners = {}; // event listener callbacks
 
