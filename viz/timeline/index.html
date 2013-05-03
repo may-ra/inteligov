@@ -15,56 +15,84 @@
 
 			var data = data = [
                 {
-                    'start': new Date(2010,7,23),
+                    'start': new Date(2013,7,23),
                     'color': '#487346',
                     'content': '<div style="background-color:white;width:100%;height:100%;">test</div>'
                 },
                 {
-                    'start': new Date(2010,7,23),
-                    'color': '#000000',
+                    'start': new Date(2013,7,23),
+                    'color': '#b5567b',
                     'content': ''
                 },
                 {
-                    'start': new Date(2010,7,23,23,0,0),
+                    'start': new Date(2013,7,23,23,0,0),
+                    'color': '#9c7819',
                     'content': ''
                 },
                 {
-                    'start': new Date(2010,7,24,16,0,0),
+                    'start': new Date(2013,7,24,16,0,0),
+                    'color': '#b58f5d',
                     'content': ''
                 },
                 {
-                    'start': new Date(2010,7,26),
-                    'end': new Date(2010,8,2),
+                    'start': new Date(2013,7,26),
+                    'end': new Date(2013,8,2),
+                    'color': '#9c371a',
                     'content': ''
                 },
                 {
-                    'start': new Date(2010,7,28),
+                    'start': new Date(2013,7,28),
+                    'color': '#71919e',
                     'content': ''
                 },
                 {
-                    'start': new Date(2010,7,29),
+                    'start': new Date(2013,7,29),
+                    'color': '#971317',
                     'content': ''
                 },
                 {
-                    'start': new Date(2010,7,31),
-                    'end': new Date(2010,8,3),
+                    'start': new Date(2013,7,30),
+                    'end': new Date(2013,8,3),
+                    'color': '#d41243',
                     'content': ''
                 },
                 {
-                    'start': new Date(2010,8,4,12,0,0),
+                    'start': new Date(2013,7,24,12,0,0),
+                    'color': '#00aedb',
                     'content': ''
                 }
             ];
 
 			// specify options
-            var options = {
-                'width':  '100%',
-                'height': '300px',
-                'editable': false,
-                'style': 'dot',
-                'cluster': false
-            };
+            var dates = $.map(data,function(e){return [e.start,e.end];}).sort(d3.ascending),
+                diffs = [],
+                maxMin = d3.extent(dates), 
+                minDays = maxMin[0].getDate(), 
+                maxDays = maxMin[1].getDate(),
+                min = maxMin[0].getTime(),
+                max = maxMin[1].getTime(), 
+                options = {
+                    'width':  '100%',
+                    'height': '300px',
+                    'editable': false,
+                    'style': 'dot',
+                    'cluster': false
+                }, meanDiff, minDiff;
 
+                for(var l = dates.length; l--;) {
+                    (l > 0) && (dates[l] && dates[l-1]) && (diffs[l-1] = dates[l].getTime() - dates[l-1].getTime() || null);
+                }
+                meanDiff = Math.floor((d3.mean(diffs)/1000)/3600/24) || 1;
+                minDiff = d3.min(diffs)/1000/3600/24;
+                
+                options.start = new Date(min).setDate(minDays - 2*meanDiff);
+                options.end = new Date(max).setDate(maxDays + 2*meanDiff);
+
+                options.min = new Date(min).setDate(minDays - 4*meanDiff);
+                options.max = new Date(max).setDate(maxDays + 4*meanDiff);
+
+                options.zoomMin = 3*minDiff*24*3600*1000;
+                
             // Instantiate our timeline object.
             timeline = new links.Timeline(document.getElementById('timeline'));
 
