@@ -4892,10 +4892,10 @@ links.Timeline.ItemBox.prototype.createDOM = function () {
         color = this.color.toString(), 
         borderColor = this.color.darker().toString(), 
         bgColor = this.color.brighter().toString();
-
+    /*
     console.log(color);
     console.log([color,borderColor,bgColor]);
-
+    */
     divBoxStyle.left = this.left + "px";
     divBoxStyle.top = this.top + "px";
 
@@ -4904,6 +4904,7 @@ links.Timeline.ItemBox.prototype.createDOM = function () {
     divContent.className = "timeline-event-content";
     
     //divContent.innerHTML = this.content;
+    console.log(this);
     divContent.appendChild(this.contentGenerator.generate(this));
     
     divBox.appendChild(divContent);
