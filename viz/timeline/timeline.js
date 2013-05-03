@@ -122,7 +122,7 @@ links.Timeline = function(container) {
     this.currentClusters = [];
     this.selection = []; // stores index and item which is currently selected
 
-    this.contentGenerator = new links.TimeLine.ContentGenerator(new links.TimeLine.TableContentFactory());
+    this.contentGenerator = new links.Timeline.ContentGenerator(new links.Timeline.TableContentFactory());
 
     this.listeners = {}; // event listener callbacks
 
@@ -6370,35 +6370,41 @@ links.Timeline.StepDate.prototype.addZeros = function(value, len) {
         str = "0" + str;
     }
     return str;
-};links.TimeLine.ContentFactory = function(type){
+};
+
+links.Timeline.ContentFactory = function(type){
 
 	this.getType = function(){return type;};
 
-};links.TimeLine.ContentGenerator = function(factory){
+};
+
+links.Timeline.ContentGenerator = function(factory){
 	this.factory = factory;
 };
 
-links.TimeLine.ContentGenerator.prototype.generate = function(data){
+links.Timeline.ContentGenerator.prototype.generate = function(data){
 	this.get(data);
 }
 
-links.TimeLine.ContentGenerator.prototype.get = function(data){
+links.Timeline.ContentGenerator.prototype.get = function(data){
 	return data && this.factory && this.factory.get && this.factory.get.call(this,data);
 }
 
-links.TimeLine.ContentGenerator.prototype.getFactory = function(){
+links.Timeline.ContentGenerator.prototype.getFactory = function(){
 	return this.factory;
 };
 
-links.TimeLine.ContentGenerator.prototype.setFactory = function(factory){
+links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 	factory && (this.factory = factory);
-};(function(type){
+};
 
-	links.TimeLine.TableContentFactory = function() {}
-	links.TimeLine.TableContentFactory.prototype = new links.TimeLine.ContentFactory(type);
+(function(type){
+
+	links.Timeline.TableContentFactory = function() {}
+	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
 	//TODO: update the layout by honoring the data structure provided by: lfsandoval@consistent.com.mx
-	links.TimeLine.TableContentFactory.prototype.get = function(data) {
+	links.Timeline.TableContentFactory.prototype.get = function(data) {
 
 		var $table = $(
 				"<table>",

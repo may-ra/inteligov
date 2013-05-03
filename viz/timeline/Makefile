@@ -5,8 +5,7 @@ PREFIX_TIMELINE=$(addprefix ./src/links.TimeLine.,$(TIMELINE))
 all: timeline.js
 
 timeline.js: 
-	cat $(PREFIX_TIMELINE) $(PREFIX_INTELI) > timeline.js
-
+	cat $(PREFIX_TIMELINE) > timeline.js
 clean:
 	rm -rf timeline.js
 
