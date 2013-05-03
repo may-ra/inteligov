@@ -115,7 +115,9 @@ links.Timeline.StepDate.prototype.roundToMinor = function() {
             case links.Timeline.StepDate.SCALE.MINUTE:       this.current.setMinutes(this.current.getMinutes() - this.current.getMinutes() % this.step); break;
             case links.Timeline.StepDate.SCALE.HOUR:         this.current.setHours(this.current.getHours() - this.current.getHours() % this.step); break;
             case links.Timeline.StepDate.SCALE.WEEKDAY:      // intentional fall through
-            case links.Timeline.StepDate.SCALE.DAY:          this.current.setDate((this.current.getDate()-1) - (this.current.getDate()-1) % this.step + 1); break;
+            case links.Timeline.StepDate.SCALE.DAY:          
+                this.current.setDate((this.current.getDate()-1) - (this.current.getDate()-1) % this.step + 1); 
+                break;
             case links.Timeline.StepDate.SCALE.MONTH:        this.current.setMonth(this.current.getMonth() - this.current.getMonth() % this.step);  break;
             case links.Timeline.StepDate.SCALE.YEAR:         this.current.setFullYear(this.current.getFullYear() - this.current.getFullYear() % this.step); break;
             default: break;
@@ -134,18 +136,23 @@ links.Timeline.StepDate.prototype.end = function () {
 /**
  * Do the next step
  */
+ //sier
 links.Timeline.StepDate.prototype.next = function() {
     var prev = this.current.valueOf();
-
     // Two cases, needed to prevent issues with switching daylight savings 
     // (end of March and end of October)
     if (this.current.getMonth() < 6)   {
         switch (this.scale) {
             case links.Timeline.StepDate.SCALE.MILLISECOND:
 
-                this.current = new Date(this.current.valueOf() + this.step); break;
-            case links.Timeline.StepDate.SCALE.SECOND:       this.current = new Date(this.current.valueOf() + this.step * 1000); break;
-            case links.Timeline.StepDate.SCALE.MINUTE:       this.current = new Date(this.current.valueOf() + this.step * 1000 * 60); break;
+                this.current = new Date(this.current.valueOf() + this.step); 
+                break;
+            case links.Timeline.StepDate.SCALE.SECOND:       
+                this.current = new Date(this.current.valueOf() + this.step * 1000); 
+                break;
+            case links.Timeline.StepDate.SCALE.MINUTE:       
+                this.current = new Date(this.current.valueOf() + this.step * 1000 * 60); 
+                break;
             case links.Timeline.StepDate.SCALE.HOUR:
                 this.current = new Date(this.current.valueOf() + this.step * 1000 * 60 * 60);
                 // in case of skipping an hour for daylight savings, adjust the hour again (else you get: 0h 5h 9h ... instead of 0h 4h 8h ...)
@@ -153,10 +160,17 @@ links.Timeline.StepDate.prototype.next = function() {
                 this.current.setHours(h - (h % this.step));
                 break;
             case links.Timeline.StepDate.SCALE.WEEKDAY:      // intentional fall through
-            case links.Timeline.StepDate.SCALE.DAY:          this.current.setDate(this.current.getDate() + this.step); break;
-            case links.Timeline.StepDate.SCALE.MONTH:        this.current.setMonth(this.current.getMonth() + this.step); break;
-            case links.Timeline.StepDate.SCALE.YEAR:         this.current.setFullYear(this.current.getFullYear() + this.step); break;
-            default:                      break;
+            case links.Timeline.StepDate.SCALE.DAY:  
+                this.current.setDate(this.current.getDate() + this.step);
+                break;
+            case links.Timeline.StepDate.SCALE.MONTH:        
+                this.current.setMonth(this.current.getMonth() + this.step); 
+                break;
+            case links.Timeline.StepDate.SCALE.YEAR:         
+                this.current.setFullYear(this.current.getFullYear() + this.step); 
+                break;
+            default:                      
+                break;
         }
     }
     else {
@@ -166,24 +180,44 @@ links.Timeline.StepDate.prototype.next = function() {
             case links.Timeline.StepDate.SCALE.MINUTE:       this.current.setMinutes(this.current.getMinutes() + this.step); break;
             case links.Timeline.StepDate.SCALE.HOUR:         this.current.setHours(this.current.getHours() + this.step); break;
             case links.Timeline.StepDate.SCALE.WEEKDAY:      // intentional fall through
-            case links.Timeline.StepDate.SCALE.DAY:          this.current.setDate(this.current.getDate() + this.step); break;
+            case links.Timeline.StepDate.SCALE.DAY:
+                this.current.setDate(this.current.getDate() + this.step); 
+                break;
             case links.Timeline.StepDate.SCALE.MONTH:        this.current.setMonth(this.current.getMonth() + this.step); break;
             case links.Timeline.StepDate.SCALE.YEAR:         this.current.setFullYear(this.current.getFullYear() + this.step); break;
             default:                      break;
         }
     }
-
+    
     if (this.step != 1) {
         // round down to the correct major value
         switch (this.scale) {
-            case links.Timeline.StepDate.SCALE.MILLISECOND:  if(this.current.getMilliseconds() < this.step) this.current.setMilliseconds(0);  break;
-            case links.Timeline.StepDate.SCALE.SECOND:       if(this.current.getSeconds() < this.step) this.current.setSeconds(0);  break;
-            case links.Timeline.StepDate.SCALE.MINUTE:       if(this.current.getMinutes() < this.step) this.current.setMinutes(0);  break;
-            case links.Timeline.StepDate.SCALE.HOUR:         if(this.current.getHours() < this.step) this.current.setHours(0);  break;
+            case links.Timeline.StepDate.SCALE.MILLISECOND:  
+                if(this.current.getMilliseconds() < this.step) 
+                    this.current.setMilliseconds(0);  
+                break;
+            case links.Timeline.StepDate.SCALE.SECOND:       
+                if(this.current.getSeconds() < this.step) this.current.setSeconds(0);  
+                break;
+            case links.Timeline.StepDate.SCALE.MINUTE:       
+                if(this.current.getMinutes() < this.step) this.current.setMinutes(0);  
+                break;
+            case links.Timeline.StepDate.SCALE.HOUR:         
+                if(this.current.getHours() < this.step) this.current.setHours(0);  
+                break;
             case links.Timeline.StepDate.SCALE.WEEKDAY:      // intentional fall through
-            case links.Timeline.StepDate.SCALE.DAY:          if(this.current.getDate() < this.step+1) this.current.setDate(1); break;
-            case links.Timeline.StepDate.SCALE.MONTH:        if(this.current.getMonth() < this.step) this.current.setMonth(0);  break;
-            case links.Timeline.StepDate.SCALE.YEAR:         break; // nothing to do for year
+            case links.Timeline.StepDate.SCALE.DAY:
+                //this is a fast patch for prevent the ugly overlap in the number 31 and the 1, its ugly and not the best
+                //way but its just a quick fix.
+                (this.current.getDate() === 31) && this.current.setDate(32);
+                //finish
+                (this.current.getDate() < this.step+1) && this.current.setDate(1);
+                break;
+            case links.Timeline.StepDate.SCALE.MONTH:        
+                if(this.current.getMonth() < this.step) this.current.setMonth(0);  
+                break;
+            case links.Timeline.StepDate.SCALE.YEAR:         
+                break; // nothing to do for year
             default:                break;
         }
     }
@@ -304,7 +338,8 @@ links.Timeline.StepDate.prototype.snap = function(date) {
         if (date.getDate() > 15) {
             date.setDate(1);
             date.setMonth(date.getMonth() + 1);
-            // important: first set Date to 1, after that change the month.      
+            // important: first set Date to 1, after that change the month.
+
         }
         else {
             date.setDate(1);

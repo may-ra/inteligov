@@ -41,7 +41,10 @@ links.Timeline.ItemRange.prototype.unselect = function () {
 links.Timeline.ItemRange.prototype.createDOM = function () {
     // background box
     var divBox = document.createElement("DIV");
+    var bgColor = this.color.brighter().toString(), borderColor = this.color.darker().toString();
     divBox.style.position = "absolute";
+    divBox.style.borderColor = borderColor;
+    divBox.style.backgroundColor = bgColor;
 
     // contents box
     var divContent = document.createElement("DIV");
