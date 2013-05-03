@@ -1,9 +1,6 @@
 #Variables to simply the make
-TIMELINE=js prototype.js Item.js ItemBox.js ItemDot.js ItemRange.js ClusterGenerator.js StepDate.js
+TIMELINE=js prototype.js Item.js ItemBox.js ItemDot.js ItemRange.js ClusterGenerator.js StepDate.js ContentFactory.js ContentGenerator.js TableContentFactory.js
 PREFIX_TIMELINE=$(addprefix ./src/links.TimeLine.,$(TIMELINE))
-
-INTELI_TIMELINE=ContentFactory.js ContentGenerator.js
-PREFIX_INTELI=$(addprefix ./src/inteli.gov.TimeLine.,$(INTELI_TIMELINE))
 
 all: timeline.js
 
