@@ -3,6 +3,7 @@
 	links.TimeLine.TableContentFactory = function() {}
 	links.TimeLine.TableContentFactory.prototype = new links.TimeLine.ContentFactory(type);
 
+	//TODO: update the layout by honoring the data structure provided by: lfsandoval@consistent.com.mx
 	links.TimeLine.TableContentFactory.prototype.get = function(data) {
 
 		var $table = $(
