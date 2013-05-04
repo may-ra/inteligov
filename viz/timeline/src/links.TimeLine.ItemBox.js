@@ -87,23 +87,19 @@ links.Timeline.ItemBox.prototype.createDOM = function () {
         color = this.color.toString(), 
         borderColor = this.color.darker().toString(), 
         bgColor = this.color.brighter().toString();
-    /*
-    console.log(color);
-    console.log([color,borderColor,bgColor]);
-    */
+    //console.log(arguments.callee.caller);
     divBoxStyle.left = this.left + "px";
     divBoxStyle.top = this.top + "px";
 
     // contents box (inside the background box). used for making margins
     var divContent = document.createElement("DIV");
     divContent.className = "timeline-event-content";
-    
-    //divContent.innerHTML = this.content;
-    console.log(this);
-    divContent.appendChild(this.ContentGenerator.generate(this));
-    
+  
+    //divContent.appendChild({content:timeline.contentGenerator.generate({desc:'that',title:'Los marcianos',img:'photo.png'})});
+    //divContent.innerHTML += timeline.contentGenerator.generate({desc:'that',title:'Los marcianos',img:'photo.png'}).textContent;
+
     divBox.appendChild(divContent);
-    
+
     divBoxStyle.position = divDotStyle.position = divLineStyle.position = "absolute";
     divDotStyle.width = divDotStyle.height = divLineStyle.width = "0px";
     divBoxStyle.backgroundColor = divLineStyle.borderColor = bgColor;
@@ -213,7 +209,13 @@ links.Timeline.ItemBox.prototype.updateDOM = function () {
         var divLineRange = divBox.lineRange;
 
         // update contents
-        divBox.firstChild.innerHTML = this.content;
+        /*
+         *  This should be changed, becuase we don't know the actual structure of the data
+         *  in the other hand we need to have the data on the this.
+         */
+        //divBox.firstChild.innerHTML = this.content;
+
+        divBox.firstChild.appendChild(timeline.contentGenerator.generate({desc:'Descripcion Descrita',title:'Titulo Descriptivo',img:'photo.png'}));
 
         // update class
         divBox.className = "timeline-event timeline-event-box";

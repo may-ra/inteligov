@@ -7,7 +7,6 @@
 
 	//TODO: update the layout by honoring the data structure provided by: lfsandoval@consistent.com.mx
 	links.Timeline.TableContentFactory.prototype.get = function(data) {
-
 		var $table = $(
 				"<table>",
 				{
@@ -44,10 +43,10 @@
 						}
 					).append(
 						$(
-							"<div>",
+							"<img>",
 							{
 								css:{"border-style":"solid","border-width":"1px",height:"100%"},
-								"class":data.img
+								"src":data.img
 							}
 						)
 					),
@@ -90,7 +89,7 @@
 		);
 
 		fragment.appendChild($table[0]);
-
+		
 		return fragment;
 	}
 

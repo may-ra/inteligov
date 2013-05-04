@@ -5,7 +5,7 @@ links.Timeline.ContentGenerator = function(factory){
 };
 
 links.Timeline.ContentGenerator.prototype.generate = function(data){
-	this.get(data);
+	return this.get(data);
 }
 
 links.Timeline.ContentGenerator.prototype.get = function(data){

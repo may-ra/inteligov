@@ -98,6 +98,16 @@ div.timeline-event-content {
     overflow: hidden;
 }
 
+.timeline-event-detail-description, .timeline-event-detail-title{
+    background: white;
+}
+
+div.timeline-event-lapse {
+    margin: 5px;
+    white-space: nowrap;
+    overflow: hidden;   
+}
+
 div.timeline-groups-axis {
     border-color: #BEBEBE;
     border-width: 1px;

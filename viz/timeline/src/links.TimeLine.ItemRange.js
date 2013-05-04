@@ -48,7 +48,7 @@ links.Timeline.ItemRange.prototype.createDOM = function () {
 
     // contents box
     var divContent = document.createElement("DIV");
-    divContent.className = "timeline-event-content";
+    divContent.className = "timeline-event-range";
     divBox.appendChild(divContent);
 
     this.dom = divBox;
