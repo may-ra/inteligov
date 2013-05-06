@@ -88,9 +88,6 @@ links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
         borderColor = this.color.darker().toString(), 
         bgColor = this.color.brighter().toString();
 
-    console.log(color);
-    console.log([color,borderColor,bgColor]);
-
     divBoxStyle.left = this.left + "px";
     divBoxStyle.top = this.top + "px";
 
@@ -98,7 +95,6 @@ links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
     var divContent = document.createElement("DIV");
     divContent.className = "timeline-event-content";
     
-    this.img = "test";
     //divContent.innerHTML = this.content;
     divContent.appendChild(contentGenerator.generate(this));
     
