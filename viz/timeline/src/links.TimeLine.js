@@ -800,3 +800,48 @@ links.Timeline.parseJSONDate = function (date) {
     // failing that, try to parse whatever we've got.
     return Date.parse(date);
 };
+
+links.Timeline.formatData = function(data) {
+    /* ------------------------------------
+      {
+        "type" : "",
+        "data" : {
+          "title" : "",
+          "desc" : "",
+          "imgB64" : "",
+          "imgClass" : ""
+        },
+        "events" : {
+          "created" : {
+            "d" : #,
+            "t"|"l"|"lbl" : ""
+          }
+        }
+      }
+    ------------------------------------ */
+
+    var newData = [], element, newElement, 
+        events, event, data;
+    for(var l = data.length; l--;) {
+        element = data[l];
+        data = element.data || {};
+        events = element.events || [];
+
+        newElement = {};
+        newElement.type = element.type;
+
+        newElement.title = data && data.title;
+        newElement.desc = data && data.desc;
+        newElement.imgB64 = data && data.imgB64;
+        newElement.imgClass = data && data.imgClass;
+
+        for(eventType in events) {
+            if(events.hasOwnProperty(event)) {
+                event = events[eventType];
+                newElement.start = new Date(event.d);
+                newElement.label = event.t || event.l || event.lbl;  
+            }
+        }
+        newData.push(newElement);
+    }
+}

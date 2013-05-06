@@ -12,6 +12,8 @@
  *                                 timeline. Optional.
  */
 links.Timeline.prototype.draw = function(data, options) {
+    options.formatData && (data = links.Timeline.formatData(data));
+
     this.setOptions(options);
 
     // read the data

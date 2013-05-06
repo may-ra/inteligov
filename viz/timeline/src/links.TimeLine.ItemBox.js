@@ -98,7 +98,7 @@ links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
     var divContent = document.createElement("DIV");
     divContent.className = "timeline-event-content";
     
-    console.log(this);
+    this.img = "test";
     //divContent.innerHTML = this.content;
     divContent.appendChild(contentGenerator.generate(this));
     
