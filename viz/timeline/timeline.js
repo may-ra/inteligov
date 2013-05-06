@@ -860,7 +860,7 @@ links.Timeline.formatData = function(data) {
 links.Timeline.prototype.draw = function(data, options) {
     options.formatData && (data = links.Timeline.formatData(data));
 
-    this.setOptions(options);
+    this.setOptions(this.setBoundaries(data, options));
 
     // read the data
     this.setData(data);
@@ -876,6 +876,33 @@ links.Timeline.prototype.draw = function(data, options) {
     this.firstDraw = false;
 };
 
+links.Timeline.prototype.setBoundaries = function(data, options) {
+    var dates = $.map(data, function(e){return [e.start,e.end];}).sort(d3.ascending),
+        diffs = [],
+        maxMin = d3.extent(dates), 
+        minDays = maxMin[0].getDate(), 
+        maxDays = maxMin[1].getDate(),
+        min = maxMin[0].getTime(),
+        max = maxMin[1].getTime(),
+        meanDiff, minDiff; 
+        
+
+        for(var l = dates.length; l--;) {
+            (l > 0) && (dates[l] && dates[l-1]) && (diffs[l-1] = dates[l].getTime() - dates[l-1].getTime() || null);
+        }
+        meanDiff = Math.floor((d3.mean(diffs)/1000)/3600/24) || 1;
+        minDiff = d3.min(diffs)/1000/3600/24;
+        
+        options.start = new Date(min).setDate(minDays - 2*meanDiff);
+        options.end = new Date(max).setDate(maxDays + 2*meanDiff);
+
+        options.min = new Date(min).setDate(minDays - 4*meanDiff);
+        options.max = new Date(max).setDate(maxDays + 4*meanDiff);
+
+        options.zoomMin = 3*minDiff*24*3600*1000;
+
+    return options;
+}
 
 /**
  * Set options for the timeline.
