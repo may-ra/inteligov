@@ -2108,7 +2108,7 @@ links.Timeline.prototype.repaintItems = function() {
         (queue.hide.length > 0);   // TODO: reflow needed on hide of items?
 
     while (item = queue.show.shift()) {
-        item.showDOM(frame);
+        item.showDOM(frame,this.contentGenerator);
         item.getImageUrls(newImageUrls);
         renderedItems.push(item);
     }
@@ -4881,7 +4881,7 @@ links.Timeline.ItemBox.prototype.unselect = function () {
  * @return {Element | undefined}
  * @override
  */
-links.Timeline.ItemBox.prototype.createDOM = function () {
+links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
     // background box
     var divBox = document.createElement("DIV"), divBoxStyle = divBox.style,
         divLine = document.createElement("DIV"), divLineStyle = divLine.style,
@@ -4900,8 +4900,9 @@ links.Timeline.ItemBox.prototype.createDOM = function () {
     var divContent = document.createElement("DIV");
     divContent.className = "timeline-event-content";
     
+    console.log(this);
     //divContent.innerHTML = this.content;
-    divContent.appendChild(this.contentGenerator.generate(this));
+    divContent.appendChild(contentGenerator.generate(this));
     
     divBox.appendChild(divContent);
     
@@ -4944,11 +4945,11 @@ links.Timeline.ItemBox.prototype.createDOM = function () {
  * @param {Element} container
  * @override
  */
-links.Timeline.ItemBox.prototype.showDOM = function (container) {
+links.Timeline.ItemBox.prototype.showDOM = function (container, contentGenerator) {
     var fragment = document.createDocumentFragment(), dom = this.dom;
 
     if (!dom) {
-        dom = this.createDOM();
+        dom = this.createDOM(contentGenerator);
     }
 
     if (dom.parentNode != container) {
@@ -5012,9 +5013,6 @@ links.Timeline.ItemBox.prototype.updateDOM = function () {
         var divDot = divBox.dot;
         var divDotEnd = divBox.dotEnd;
         var divLineRange = divBox.lineRange;
-
-        // update contents
-        divBox.firstChild.innerHTML = this.content;
 
         // update class
         divBox.className = "timeline-event timeline-event-box";
@@ -6339,7 +6337,7 @@ links.Timeline.ContentGenerator = function(factory){
 };
 
 links.Timeline.ContentGenerator.prototype.generate = function(data){
-	this.get(data);
+	return this.get(data);
 }
 
 links.Timeline.ContentGenerator.prototype.get = function(data){

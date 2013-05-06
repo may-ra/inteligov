@@ -1307,7 +1307,7 @@ links.Timeline.prototype.repaintItems = function() {
         (queue.hide.length > 0);   // TODO: reflow needed on hide of items?
 
     while (item = queue.show.shift()) {
-        item.showDOM(frame);
+        item.showDOM(frame,this.contentGenerator);
         item.getImageUrls(newImageUrls);
         renderedItems.push(item);
     }
