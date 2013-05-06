@@ -1,100 +1,104 @@
-
-
 (function(type){
-
-	links.Timeline.TableContentFactory = function() {}
+	links.Timeline.TableContentFactory = function(){};
 	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
-	//TODO: update the layout by honoring the data structure provided by: lfsandoval@consistent.com.mx
 	links.Timeline.TableContentFactory.prototype.get = function(data) {
-
 		var borderColor = data.color.toString(),
-			$table = $(
-				"<table>",
-				{
-					css:{width:"155px", height:"60px", "border-collapse":"collapse"},
-					"class":"timeline-event-detail"
-				}
-			),
-			tdStyle = {"text-align":"center",height:"32px",padding:0},
-			$descTR = $("<tr>").append(
-				$(
-					"<td>",
-					{
-						css:$.extend({"font-size":"10px"},tdStyle)
-					}
-				).append(
-					$(
-						"<div>",
-						{
-							css:{"margin-left":"16px","border-style":"solid","border-width":"0 1px 1px 1px",height:"100%"},
-							text:data.desc,
-							"class":"timeline-event-detail timeline-event-detail-description"
-						}
-					)
-				).attr("colSpan",2)
-			),
-			$titleTR = 
+		$table = $(
+			"<table>",
+			{
+				css:{width:"155px", height:"100%", "border-collapse":"collapse"},
+				"class":"timeline-event-detail"
+			}
+		).attr("cellspacing",0).attr("cellpadding",0),
+		tdStyle = {"text-align":"center",height:"32px",padding:0},
+		$titleTR = 
 			$("<tr>").append(
-				data.img ?
-				[
+				[ data.img ?
 					$(
 						"<td>",
 						{
-							css:{padding:0,height:"32px",width:"32px"}
+							css:$.extend({"font-size":"10px"},tdStyle)
 						}
 					).append(
 						$(
 							"<div>",
 							{
-								css:{"border-style":"solid","border-width":"1px",height:"100%"},
-								"class":[data.img, "timeline-event-detail timeline-event-detail-image"].join(" ")
+								css:{"border-style":"solid","border-width":"1px"},
+								"class":["timeline-event-detail","timeline-event-detail-image"].join(" ")
 							}
+						).append(
+							$(
+								"<img>",
+								{
+									css:{border:"none","border-width":0,height:"32px",width:"32px"},
+									"src":data.img
+								}
+							)
 						)
-					),
+					): null,
 					$(
 						"<td>",
 						{
-							css:$.extend({"font-size":"12px",width:"120px"},tdStyle)
+							css:{"font-size":"10px",width:"120px","text-align":"left"},
 						}
 					).append(
+						data.label ?
+								[$(
+								"<div>",
+								{
+									css:{"font-size":"9px",width:"120px","text-align":"left",padding:"0 0 0 5px"},
+									text:data.label,
+									"class":"timeline-event-detail-label"
+								}
+							),
+							$(
+								"<div>",
+								{
+									css:{"border-style":"solid","border-width":"1px 1px 1px 0",padding:"2px 0 0 6px",height:"20px"},
+									text:data.title,
+									"class":"timeline-event-detail timeline-event-detail-title"
+								}
+							)]
+						:
 						$(
 							"<div>",
 							{
-								css:{"margin-top":"12px","border-style":"solid","border-width":"1px 1px 1px 0",height:"20px"},
+								css:{"border-style":"solid","border-width":"1px 1px 1px 1px",height:"20px",padding:"2px 0 0 6px","margin-top":data.img?"10px":"2px","border-collapse":"collapse"},
 								text:data.title,
 								"class":"timeline-event-detail timeline-event-detail-title"
 							}
 						)
 					)
-				]:
-				$(
-					"<td>",
-					{
-						css:{"font-size":"12px",width:"120px",height:"20px",padding:0,"text-align":"center"}
-					}
-				).append(
+				]
+			),
+			$desc = data.desc ? 
+				$("<tr>").append(
 					$(
-						"<div>",
+						"<td>",
 						{
-							css:{"border-style":"solid","border-width":"1px 1px 1px 1px",height:"20px"},
-							text:data.title,
-							"class":"timeline-event-detail timeline-event-detail-title"
+							css:$.extend({"font-size":"10px"},tdStyle)
 						}
-					)
-				)
-			), fragment = document.createDocumentFragment();
+					).append(
+						$(
+							"<div>",
+							{
+								css:{"margin-left":"16px","border-style":"solid","border-width":"0 1px 1px 1px",height:"100%"},							
+								"class":"timeline-event-detail timeline-event-detail-description",
+								"rowspan":"2",
+								text: data.desc
+							}
+						)
+					).attr("colSpan",2)
+				) : null;
+		fragment = document.createDocumentFragment();
 
-		$table.append(
-			$titleTR,
-			$descTR
-		);
+		$table.append($titleTR, $desc);
 
 		$table.find("div.timeline-event-detail").css({"border-color":borderColor,"border-style":"outset"});
 
 		fragment.appendChild($table[0]);
 
-		return fragment;
-	}
-
-})("links.TimeLine.TableContentFactory");
+	return fragment;
+	};
+})("links.TimeLine.TableContent");
