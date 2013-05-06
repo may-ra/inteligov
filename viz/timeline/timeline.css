@@ -1,3 +1,8 @@
+div.timeline-event-detail-description,
+div.timeline-event-detail-title {
+    background-color: #fff;
+}
+
 div.timeline-frame {
     border: 1px solid #BEBEBE;
     overflow: hidden;

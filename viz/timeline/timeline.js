@@ -6405,7 +6405,7 @@ links.Timeline.ContentFactory = function(type){
 							"<div>",
 							{
 								css:{"border-style":"solid","border-width":"1px",height:"100%"},
-								"class":data.img
+								"class":[data.img, "timeline-event-detail-image"].join(" ")
 							}
 						)
 					),
