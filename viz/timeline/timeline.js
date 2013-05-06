@@ -6366,7 +6366,8 @@ links.Timeline.ContentFactory = function(type){
 	//TODO: update the layout by honoring the data structure provided by: lfsandoval@consistent.com.mx
 	links.Timeline.TableContentFactory.prototype.get = function(data) {
 
-		var $table = $(
+		var borderColor = data.color.toString(),
+			$table = $(
 				"<table>",
 				{
 					css:{width:"155px", height:"60px", "border-collapse":"collapse"},
@@ -6386,7 +6387,7 @@ links.Timeline.ContentFactory = function(type){
 						{
 							css:{"margin-left":"16px","border-style":"solid","border-width":"0 1px 1px 1px",height:"100%"},
 							text:data.desc,
-							"class":"timeline-event-detail-description"
+							"class":"timeline-event-detail timeline-event-detail-description"
 						}
 					)
 				).attr("colSpan",2)
@@ -6405,7 +6406,7 @@ links.Timeline.ContentFactory = function(type){
 							"<div>",
 							{
 								css:{"border-style":"solid","border-width":"1px",height:"100%"},
-								"class":[data.img, "timeline-event-detail-image"].join(" ")
+								"class":[data.img, "timeline-event-detail timeline-event-detail-image"].join(" ")
 							}
 						)
 					),
@@ -6420,7 +6421,7 @@ links.Timeline.ContentFactory = function(type){
 							{
 								css:{"margin-top":"12px","border-style":"solid","border-width":"1px 1px 1px 0",height:"20px"},
 								text:data.title,
-								"class":"timeline-event-detail-title"
+								"class":"timeline-event-detail timeline-event-detail-title"
 							}
 						)
 					)
@@ -6436,7 +6437,7 @@ links.Timeline.ContentFactory = function(type){
 						{
 							css:{"border-style":"solid","border-width":"1px 1px 1px 1px",height:"20px"},
 							text:data.title,
-							"class":"timeline-event-detail-title"
+							"class":"timeline-event-detail timeline-event-detail-title"
 						}
 					)
 				)
@@ -6446,6 +6447,8 @@ links.Timeline.ContentFactory = function(type){
 			$titleTR,
 			$descTR
 		);
+
+		$table.find("div.timeline-event-detail").css({"border-color":borderColor,"border-style":"outset"});
 
 		fragment.appendChild($table[0]);
 
