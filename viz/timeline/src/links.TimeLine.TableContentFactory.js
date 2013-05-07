@@ -1,11 +1,12 @@
+
+
 (function(type){
 
-	links.TimeLine.TableContentFactory = function() {}
-	links.TimeLine.TableContentFactory.prototype = new links.TimeLine.ContentFactory(type);
+	links.Timeline.TableContentFactory = function() {}
+	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
 	//TODO: update the layout by honoring the data structure provided by: lfsandoval@consistent.com.mx
-	links.TimeLine.TableContentFactory.prototype.get = function(data) {
-
+	links.Timeline.TableContentFactory.prototype.get = function(data) {
 		var $table = $(
 				"<table>",
 				{
@@ -42,10 +43,10 @@
 						}
 					).append(
 						$(
-							"<div>",
+							"<img>",
 							{
 								css:{"border-style":"solid","border-width":"1px",height:"100%"},
-								"class":data.img
+								"src":data.img
 							}
 						)
 					),
@@ -88,7 +89,7 @@
 		);
 
 		fragment.appendChild($table[0]);
-
+		
 		return fragment;
 	}
 

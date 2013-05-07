@@ -1,19 +1,21 @@
-links.TimeLine.ContentGenerator = function(factory){
+
+
+links.Timeline.ContentGenerator = function(factory){
 	this.factory = factory;
 };
 
-links.TimeLine.ContentGenerator.prototype.generate = function(data){
-	this.get(data);
+links.Timeline.ContentGenerator.prototype.generate = function(data){
+	return this.get(data);
 }
 
-links.TimeLine.ContentGenerator.prototype.get = function(data){
+links.Timeline.ContentGenerator.prototype.get = function(data){
 	return data && this.factory && this.factory.get && this.factory.get.call(this,data);
 }
 
-links.TimeLine.ContentGenerator.prototype.getFactory = function(){
+links.Timeline.ContentGenerator.prototype.getFactory = function(){
 	return this.factory;
 };
 
-links.TimeLine.ContentGenerator.prototype.setFactory = function(factory){
+links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 	factory && (this.factory = factory);
 };
