@@ -49,7 +49,9 @@
                 {
                     'start': new Date(2013,7,29),
                     'color': '#971317',
-                    'content': ''
+                    'content': '',
+                    'title': 'titulo tentativo',
+                    'desc':'Description with a lot of words i think so'
                 },
                 {
                     'start': new Date(2013,7,30),
@@ -74,7 +76,7 @@
             timeline = new links.Timeline(document.getElementById('timeline'));
 
             timeline.draw(data,options);
-
+        
             links.events.addListener(timeline, 'select', function(){
             });
 
