@@ -14,7 +14,7 @@
 		tdStyle = {"text-align":"center",height:"32px",padding:0},
 		$titleTR = 
 			$("<tr>").append(
-				[ data.img ?
+				[ data.imgB64 ?
 					$(
 						"<td>",
 						{
@@ -32,7 +32,7 @@
 								"<img>",
 								{
 									css:{border:"none","border-width":0,height:"32px",width:"32px"},
-									"src":data.img
+									"src":data.imgB64
 								}
 							)
 						)
@@ -91,6 +91,7 @@
 						)
 					).attr("colSpan",2)
 				) : null;
+
 		fragment = document.createDocumentFragment();
 
 		$table.append($titleTR, $desc);

@@ -21,6 +21,11 @@ links.Timeline.Item = function (data, options) {
         this.editable = data.editable;
         this.group = data.group;
         this.color = d3.rgb(data.color);
+        this.label = data.label;
+        this.title = data.title;
+        this.desc = data.desc;
+        this.imgB64 = data.imgB64;
+        this.imgClass = data.imgClass;
     }
     this.top = 0;
     this.left = 0;

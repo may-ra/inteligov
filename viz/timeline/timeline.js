@@ -4021,7 +4021,12 @@ links.Timeline.prototype.createItem = function(itemData, type) {
         className: itemData.className,
         editable: itemData.editable,
         group: this.getGroup(itemData.group),
-        color: itemData.color
+        color: itemData.color,
+        label: itemData.label,
+        title: itemData.title,
+        desc: itemData.desc,
+        imgB64: itemData.imgB64,
+        imgClass: itemData.imgClass
     };
     // TODO: optimize this, when creating an item, all data is copied twice...
 
@@ -4068,7 +4073,12 @@ links.Timeline.prototype.changeItem = function (index, itemData, preventRender, 
         'group':   itemData.hasOwnProperty('group') ?   itemData.group :   this.getGroupName(oldItem.group),
         'className': itemData.hasOwnProperty('className') ? itemData.className : oldItem.className,
         'editable': itemData.hasOwnProperty('editable') ? itemData.editable : oldItem.editable,
-        'color': itemData.hasOwnProperty('color') ? itemData.color : oldItem.color
+        'color': itemData.hasOwnProperty('color') ? itemData.color : oldItem.color,
+        'label': itemData.hasOwnProperty('label') ? itemData.label : oldItem.label,
+        'desc': itemData.hasOwnProperty('desc') ? itemData.desc : oldItem.desc,
+        'title': itemData.hasOwnProperty('title') ? itemData.title : oldItem.title,
+        'imgB64': itemData.hasOwnProperty('imgB64') ? itemData.imgB64 : oldItem.imgB64,
+        'imgClass': itemData.hasOwnProperty('imgClass') ? itemData.imgClass : oldItem.imgClass
     }, type);
     this.items[index] = newItem;
 
@@ -4728,6 +4738,11 @@ links.Timeline.Item = function (data, options) {
         this.editable = data.editable;
         this.group = data.group;
         this.color = d3.rgb(data.color);
+        this.label = data.label;
+        this.title = data.title;
+        this.desc = data.desc;
+        this.imgB64 = data.imgB64;
+        this.imgClass = data.imgClass;
     }
     this.top = 0;
     this.left = 0;
@@ -6443,7 +6458,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 		tdStyle = {"text-align":"center",height:"32px",padding:0},
 		$titleTR = 
 			$("<tr>").append(
-				[ data.img ?
+				[ data.imgB64 ?
 					$(
 						"<td>",
 						{
@@ -6461,7 +6476,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 								"<img>",
 								{
 									css:{border:"none","border-width":0,height:"32px",width:"32px"},
-									"src":data.img
+									"src":data.imgB64
 								}
 							)
 						)
@@ -6520,6 +6535,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 						)
 					).attr("colSpan",2)
 				) : null;
+
 		fragment = document.createDocumentFragment();
 
 		$table.append($titleTR, $desc);
