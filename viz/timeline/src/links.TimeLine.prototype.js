@@ -2618,7 +2618,7 @@ links.Timeline.prototype.onMouseUp = function (event) {
                 if (params.itemIndex != undefined) {
                     if (!this.isSelected(params.itemIndex)) {
                         this.selectItem(params.itemIndex);
-                        this.trigger('select',params);       
+                        this.trigger('select',params,event);       
                     } else {
                         this.unselectItem(params.itemIndex);
                     }
@@ -3759,7 +3759,7 @@ links.Timeline.prototype.collision = function(item1, item2, margin) {
  * fire an event
  * @param {String} event   The name of an event, for example "rangechange" or "edit"
  */
-links.Timeline.prototype.trigger = function (event, DOMEvent) {
+links.Timeline.prototype.trigger = function (event, TLEvent, DOMEvent) {
     // built up properties
     var properties = null;
     switch (event) {
@@ -3779,9 +3779,10 @@ links.Timeline.prototype.trigger = function (event, DOMEvent) {
             break;
         case 'select':
             properties = {
-                'event':DOMEvent,
-                'selection': this.selection,
-                'item': this.selection && this.items[this.selection.index]
+                'DOMEvent':DOMEvent,
+                'event':TLEvent,
+                'data': this.data[TLEvent.itemIndex],
+                'item': this.items[TLEvent.itemIndex]
             };
     }
 
