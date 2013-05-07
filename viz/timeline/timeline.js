@@ -877,7 +877,7 @@ links.Timeline.prototype.draw = function(data, options) {
 };
 
 links.Timeline.prototype.setBoundaries = function(data, options) {
-    var dates = $.map(data, function(e){return [e.start,e.end];}).sort(d3.ascending),
+    var dates = $.map(data, function(e){return $.map(e.events,function(ev){return ev.d||ev.date;});}).sort(d3.ascending),
         diffs = [],
         maxMin = d3.extent(dates), 
         minDays = maxMin[0].getDate(), 
