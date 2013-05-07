@@ -821,7 +821,7 @@ links.Timeline.formatData = function(data) {
     ------------------------------------ */
 
     var newData = [], element, newElement, 
-        events, event, data;
+        events, event, eventType, data;
     for(var l = data.length; l--;) {
         element = data[l];
         data = element.data || {};
@@ -836,14 +836,17 @@ links.Timeline.formatData = function(data) {
         newElement.imgClass = data && data.imgClass;
 
         for(eventType in events) {
-            if(events.hasOwnProperty(event)) {
+            if(events.hasOwnProperty(eventType)) {
                 event = events[eventType];
-                newElement.start = new Date(event.d);
-                newElement.label = event.t || event.l || event.lbl;  
+                newElement.start = new Date(event.d||event.date);
+                newElement.label = event.t || event.l || event.lbl || event.label;  
+                newElement.color = event.cb || event.color || event.bgColor;
+                newElement.labelColor = event.cf;
             }
         }
         newData.push(newElement);
     }
+    return newData;
 }/**
  * Main drawing logic. This is the function that needs to be called
  * in the html page, to draw the timeline.
@@ -877,7 +880,7 @@ links.Timeline.prototype.draw = function(data, options) {
 };
 
 links.Timeline.prototype.setBoundaries = function(data, options) {
-    var dates = $.map(data, function(e){return $.map(e.events,function(ev){return ev.d||ev.date;});}).sort(d3.ascending),
+    var dates = $.map(data, function(e){return [e.start,e.end];}).sort(d3.ascending),
         diffs = [],
         maxMin = d3.extent(dates), 
         minDays = new Date(maxMin[0]).getDate(), 

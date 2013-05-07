@@ -821,7 +821,7 @@ links.Timeline.formatData = function(data) {
     ------------------------------------ */
 
     var newData = [], element, newElement, 
-        events, event, data;
+        events, event, eventType, data;
     for(var l = data.length; l--;) {
         element = data[l];
         data = element.data || {};
@@ -836,12 +836,15 @@ links.Timeline.formatData = function(data) {
         newElement.imgClass = data && data.imgClass;
 
         for(eventType in events) {
-            if(events.hasOwnProperty(event)) {
+            if(events.hasOwnProperty(eventType)) {
                 event = events[eventType];
-                newElement.start = new Date(event.d);
-                newElement.label = event.t || event.l || event.lbl;  
+                newElement.start = new Date(event.d||event.date);
+                newElement.label = event.t || event.l || event.lbl || event.label;  
+                newElement.color = event.cb || event.color || event.bgColor;
+                newElement.labelColor = event.cf;
             }
         }
         newData.push(newElement);
     }
+    return newData;
 }
