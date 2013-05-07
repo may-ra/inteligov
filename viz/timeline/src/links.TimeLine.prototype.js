@@ -34,15 +34,15 @@ links.Timeline.prototype.setBoundaries = function(data, options) {
     var dates = $.map(data, function(e){return [e.start,e.end];}).sort(d3.ascending),
         diffs = [],
         maxMin = d3.extent(dates), 
-        minDays = maxMin[0].getDate(), 
-        maxDays = maxMin[1].getDate(),
-        min = maxMin[0].getTime(),
-        max = maxMin[1].getTime(),
+        minDays = new Date(maxMin[0]).getDate(), 
+        maxDays = new Date(maxMin[1]).getDate(),
+        min = maxMin[0],
+        max = maxMin[1],
         meanDiff, minDiff; 
         
 
         for(var l = dates.length; l--;) {
-            (l > 0) && (dates[l] && dates[l-1]) && (diffs[l-1] = dates[l].getTime() - dates[l-1].getTime() || null);
+            (l > 0) && (dates[l] && dates[l-1]) && (diffs[l-1] = dates[l] - dates[l-1] || null);
         }
         meanDiff = Math.floor((d3.mean(diffs)/1000)/3600/24) || 1;
         minDiff = d3.min(diffs)/1000/3600/24;

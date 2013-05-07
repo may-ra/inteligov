@@ -821,29 +821,33 @@ links.Timeline.formatData = function(data) {
     ------------------------------------ */
 
     var newData = [], element, newElement, 
-        events, event, data;
+        events, event, eventType, dataTmp;
     for(var l = data.length; l--;) {
-        element = data[l];
-        data = element.data || {};
+        element = data[l] || {};
+        dataTmp = element.data || {};
         events = element.events || [];
 
         newElement = {};
         newElement.type = element.type;
+        newElement.ek = element.ek;
 
-        newElement.title = data && data.title;
-        newElement.desc = data && data.desc;
-        newElement.imgB64 = data && data.imgB64;
-        newElement.imgClass = data && data.imgClass;
+        newElement.title = dataTmp.title;
+        newElement.desc = dataTmp.desc;
+        newElement.imgB64 = dataTmp.imgB64;
+        newElement.imgClass = dataTmp.imgClass;
 
         for(eventType in events) {
-            if(events.hasOwnProperty(event)) {
+            if(events.hasOwnProperty(eventType)) {
                 event = events[eventType];
-                newElement.start = new Date(event.d);
-                newElement.label = event.t || event.l || event.lbl;  
+                newElement.start = new Date(event.d||event.date);
+                newElement.label = event.t || event.l || event.lbl || event.label;  
+                newElement.color = event.cb || event.color || event.bgColor;
+                newElement.labelColor = event.cf;
             }
         }
         newData.push(newElement);
     }
+    return newData;
 }/**
  * Main drawing logic. This is the function that needs to be called
  * in the html page, to draw the timeline.
@@ -880,15 +884,15 @@ links.Timeline.prototype.setBoundaries = function(data, options) {
     var dates = $.map(data, function(e){return [e.start,e.end];}).sort(d3.ascending),
         diffs = [],
         maxMin = d3.extent(dates), 
-        minDays = maxMin[0].getDate(), 
-        maxDays = maxMin[1].getDate(),
-        min = maxMin[0].getTime(),
-        max = maxMin[1].getTime(),
+        minDays = new Date(maxMin[0]).getDate(), 
+        maxDays = new Date(maxMin[1]).getDate(),
+        min = maxMin[0],
+        max = maxMin[1],
         meanDiff, minDiff; 
         
 
         for(var l = dates.length; l--;) {
-            (l > 0) && (dates[l] && dates[l-1]) && (diffs[l-1] = dates[l].getTime() - dates[l-1].getTime() || null);
+            (l > 0) && (dates[l] && dates[l-1]) && (diffs[l-1] = dates[l] - dates[l-1] || null);
         }
         meanDiff = Math.floor((d3.mean(diffs)/1000)/3600/24) || 1;
         minDiff = d3.min(diffs)/1000/3600/24;
