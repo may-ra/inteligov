@@ -821,19 +821,20 @@ links.Timeline.formatData = function(data) {
     ------------------------------------ */
 
     var newData = [], element, newElement, 
-        events, event, eventType, data;
+        events, event, eventType, dataTmp;
     for(var l = data.length; l--;) {
-        element = data[l];
-        data = element.data || {};
+        element = data[l] || {};
+        dataTmp = element.data || {};
         events = element.events || [];
 
         newElement = {};
         newElement.type = element.type;
+        newElement.ek = element.ek;
 
-        newElement.title = data && data.title;
-        newElement.desc = data && data.desc;
-        newElement.imgB64 = data && data.imgB64;
-        newElement.imgClass = data && data.imgClass;
+        newElement.title = dataTmp.title;
+        newElement.desc = dataTmp.desc;
+        newElement.imgB64 = dataTmp.imgB64;
+        newElement.imgClass = dataTmp.imgClass;
 
         for(eventType in events) {
             if(events.hasOwnProperty(eventType)) {
