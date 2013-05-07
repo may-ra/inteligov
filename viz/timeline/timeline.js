@@ -122,7 +122,7 @@ links.Timeline = function(container) {
     this.currentClusters = [];
     this.selection = []; // stores index and item which is currently selected
 
-    this.contentGenerator = new links.TimeLine.ContentGenerator(new links.TimeLine.TableContentFactory());
+    this.contentGenerator = new links.Timeline.ContentGenerator(new links.Timeline.TableContentFactory());
 
     this.listeners = {}; // event listener callbacks
 
@@ -4892,22 +4892,19 @@ links.Timeline.ItemBox.prototype.createDOM = function () {
         color = this.color.toString(), 
         borderColor = this.color.darker().toString(), 
         bgColor = this.color.brighter().toString();
-
-    console.log(color);
-    console.log([color,borderColor,bgColor]);
-
+    //console.log(arguments.callee.caller);
     divBoxStyle.left = this.left + "px";
     divBoxStyle.top = this.top + "px";
 
     // contents box (inside the background box). used for making margins
     var divContent = document.createElement("DIV");
     divContent.className = "timeline-event-content";
-    
-    //divContent.innerHTML = this.content;
-    divContent.appendChild(this.contentGenerator.generate(this));
-    
+  
+    //divContent.appendChild({content:timeline.contentGenerator.generate({desc:'that',title:'Los marcianos',img:'photo.png'})});
+    //divContent.innerHTML += timeline.contentGenerator.generate({desc:'that',title:'Los marcianos',img:'photo.png'}).textContent;
+
     divBox.appendChild(divContent);
-    
+
     divBoxStyle.position = divDotStyle.position = divLineStyle.position = "absolute";
     divDotStyle.width = divDotStyle.height = divLineStyle.width = "0px";
     divBoxStyle.backgroundColor = divLineStyle.borderColor = bgColor;
@@ -5017,7 +5014,13 @@ links.Timeline.ItemBox.prototype.updateDOM = function () {
         var divLineRange = divBox.lineRange;
 
         // update contents
-        divBox.firstChild.innerHTML = this.content;
+        /*
+         *  This should be changed, becuase we don't know the actual structure of the data
+         *  in the other hand we need to have the data on the this.
+         */
+        //divBox.firstChild.innerHTML = this.content;
+
+        divBox.firstChild.appendChild(timeline.contentGenerator.generate({desc:'Descripcion Descrita',title:'Titulo Descriptivo',img:'photo.png'}));
 
         // update class
         divBox.className = "timeline-event timeline-event-box";
@@ -5437,7 +5440,7 @@ links.Timeline.ItemRange.prototype.createDOM = function () {
 
     // contents box
     var divContent = document.createElement("DIV");
-    divContent.className = "timeline-event-content";
+    divContent.className = "timeline-event-range";
     divBox.appendChild(divContent);
 
     this.dom = divBox;
@@ -6370,36 +6373,39 @@ links.Timeline.StepDate.prototype.addZeros = function(value, len) {
         str = "0" + str;
     }
     return str;
-};links.TimeLine.ContentFactory = function(type){
+};
+links.Timeline.ContentFactory = function(type){
 
 	this.getType = function(){return type;};
+};
 
-};links.TimeLine.ContentGenerator = function(factory){
+links.Timeline.ContentGenerator = function(factory){
 	this.factory = factory;
 };
 
-links.TimeLine.ContentGenerator.prototype.generate = function(data){
-	this.get(data);
+links.Timeline.ContentGenerator.prototype.generate = function(data){
+	return this.get(data);
 }
 
-links.TimeLine.ContentGenerator.prototype.get = function(data){
+links.Timeline.ContentGenerator.prototype.get = function(data){
 	return data && this.factory && this.factory.get && this.factory.get.call(this,data);
 }
 
-links.TimeLine.ContentGenerator.prototype.getFactory = function(){
+links.Timeline.ContentGenerator.prototype.getFactory = function(){
 	return this.factory;
 };
 
-links.TimeLine.ContentGenerator.prototype.setFactory = function(factory){
+links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 	factory && (this.factory = factory);
-};(function(type){
+};
 
-	links.TimeLine.TableContentFactory = function() {}
-	links.TimeLine.TableContentFactory.prototype = new links.TimeLine.ContentFactory(type);
+(function(type){
+
+	links.Timeline.TableContentFactory = function() {}
+	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
 	//TODO: update the layout by honoring the data structure provided by: lfsandoval@consistent.com.mx
-	links.TimeLine.TableContentFactory.prototype.get = function(data) {
-
+	links.Timeline.TableContentFactory.prototype.get = function(data) {
 		var $table = $(
 				"<table>",
 				{
@@ -6436,10 +6442,10 @@ links.TimeLine.ContentGenerator.prototype.setFactory = function(factory){
 						}
 					).append(
 						$(
-							"<div>",
+							"<img>",
 							{
 								css:{"border-style":"solid","border-width":"1px",height:"100%"},
-								"class":data.img
+								"src":data.img
 							}
 						)
 					),
@@ -6482,7 +6488,7 @@ links.TimeLine.ContentGenerator.prototype.setFactory = function(factory){
 		);
 
 		fragment.appendChild($table[0]);
-
+		
 		return fragment;
 	}
 
