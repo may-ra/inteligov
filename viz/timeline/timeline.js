@@ -6476,7 +6476,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 								"<img>",
 								{
 									css:{border:"none","border-width":0,height:"32px",width:"32px"},
-									"src":data.imgB64
+									"src":"data:image/png;base64,"+data.imgB64
 								}
 							)
 						)
