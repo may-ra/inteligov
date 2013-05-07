@@ -70,7 +70,7 @@
 
           paths
             .style("fill-opacity",0.2)
-            .style("fill", function(d){ return d.data.color || color(d.data.label)})
+            .style("fill", function(d){ return d.data.color || d.data.cb || color(d.data.label)})
             .transition().duration(750)
             .attrTween("d",function(d){return simpleArcTweenBuilder(arc)(d);});
 
@@ -137,7 +137,7 @@
               element
               .transition().duration(1000)
               .attrTween("d",arcTweenBuilder(p,i))
-              .style("fill", data.color || color(data.label));
+              .style("fill", data.color || data.cb || color(data.label));
           });
           
           parent && outerGroup
