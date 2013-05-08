@@ -3176,6 +3176,7 @@ links.Timeline.prototype.createItem = function(itemData, type) {
         editable: itemData.editable,
         group: this.getGroup(itemData.group),
         color: itemData.color,
+        labelColor: itemData.labelColor,
         label: itemData.label,
         title: itemData.title,
         desc: itemData.desc,
@@ -3218,7 +3219,7 @@ links.Timeline.prototype.changeItem = function (index, itemData, preventRender, 
     if (!oldItem) {
         throw "Cannot change item, index out of range";
     }
-
+    
     // replace item, merge the changes
     var newItem = this.createItem({
         'start':   itemData.hasOwnProperty('start') ?   itemData.start :   oldItem.start,
@@ -3228,6 +3229,7 @@ links.Timeline.prototype.changeItem = function (index, itemData, preventRender, 
         'className': itemData.hasOwnProperty('className') ? itemData.className : oldItem.className,
         'editable': itemData.hasOwnProperty('editable') ? itemData.editable : oldItem.editable,
         'color': itemData.hasOwnProperty('color') ? itemData.color : oldItem.color,
+        'labelColor': itemData.hasOwnProperty('labelColor') ? itemData.labelColor : oldItem.labelColor,
         'label': itemData.hasOwnProperty('label') ? itemData.label : oldItem.label,
         'desc': itemData.hasOwnProperty('desc') ? itemData.desc : oldItem.desc,
         'title': itemData.hasOwnProperty('title') ? itemData.title : oldItem.title,

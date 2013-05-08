@@ -3,8 +3,7 @@
 	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
 	links.Timeline.TableContentFactory.prototype.get = function(data) {
-		delete data.title;
-
+		
 		var borderColor = data.color.toString(),
 		$table = $(
 			"<div>",
@@ -41,14 +40,14 @@
 					$(
 						"<div>",
 						{
-							css:{"font-size":"10px",width:data.imgB64?"120px":"152px","text-align":"left",position:"relative",left:data.imgB64?"32px":"0px",top:data.imgB64?data.label?"0px":"12px":"0px"},
+							css:{"font-size":"10px",width:data.imgB64?"150px":"182px","text-align":"left",position:"relative",left:data.imgB64?"32px":"0px",top:data.imgB64?data.label?"0px":"12px":"0px"},
 						}
 					).append(data.title ?
 						data.label ?
 								[$(
 								"<div>",
 								{
-									css:{color:"white","font-size":"9px",padding:"0 0 0 5px",position:"relative"},
+									css:{color:data.labelColor,"font-size":"9px",padding:"0 0 0 5px",position:"relative"},
 									text:data.label,
 									"class":"timeline-event-detail-label"
 								}
@@ -56,7 +55,7 @@
 							$(
 								"<div>",
 								{
-									css:{"border-style":"outset","border-width":"1px 1px 1px 0px",position:"relative",padding:"2px 0 0 6px",height:"20px",left:data.imgB64?"2px":"0px",width:data.imgB64?"120px":"152px"},
+									css:{"border-style":"outset","border-width":"1px 1px 1px 0px",position:"relative",padding:"2px 0 0 6px",height:"20px",left:data.imgB64?"2px":"0px",width:data.imgB64?"150px":"182px"},
 									text:data.title,
 									"class":"timeline-event-detail timeline-event-detail-title"
 								}

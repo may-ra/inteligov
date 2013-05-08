@@ -198,11 +198,11 @@ links.Timeline = function(container) {
         'customStackOrder': false, //a function(a,b) for determining stackorder amongst a group of items. Essentially a comparator, -ve value for "a before b" and vice versa
         
         // i18n: Timeline only has built-in English text per default. Include timeline-locales.js to support more localized text.
-        'locale': 'en',
-        'MONTHS': new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
-        'MONTHS_SHORT': new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
-        'DAYS': new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"),
-        'DAYS_SHORT': new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"),
+        'locale': 'es',
+        'MONTHS': new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"),
+        'MONTHS_SHORT': new Array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"),
+        'DAYS': new Array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"),
+        'DAYS_SHORT': new Array("Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"),
         'ZOOM_IN': "Zoom in",
         'ZOOM_OUT': "Zoom out",
         'MOVE_LEFT': "Move left",
@@ -819,7 +819,7 @@ links.Timeline.formatData = function(data) {
         }
       }
     ------------------------------------ */
-    
+    console.log(data);
     var newData = [], element, newElement, 
         events, event, eventType, dataTmp, eventDataTmp;
     for(var l = data.length; l--;) {
