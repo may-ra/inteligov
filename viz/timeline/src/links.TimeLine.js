@@ -821,7 +821,7 @@ links.Timeline.formatData = function(data) {
     ------------------------------------ */
     
     var newData = [], element, newElement, 
-        events, event, eventType, dataTmp;
+        events, event, eventType, dataTmp, eventDataTmp;
     for(var l = data.length; l--;) {
         element = data[l] || {};
         dataTmp = element.data || {};
@@ -839,13 +839,17 @@ links.Timeline.formatData = function(data) {
         for(eventType in events) {
             if(events.hasOwnProperty(eventType)) {
                 event = events[eventType];
-                newElement.start = new Date(event.d||event.date);
-                newElement.label = event.t || event.l || event.lbl || event.label;  
-                newElement.color = event.cb || event.color || event.bgColor;
-                newElement.labelColor = event.cf;
+                eventDataTmp = {
+                    start: new Date(event.d||event.date),
+                    label: event.t || event.l || event.lbl || event.label, 
+                    color: event.cb || event.color || event.bgColor,
+                    labelColor: event.cf,
+                    eventType: eventType
+                };
+                newData.push($.extend(true,{},newElement,eventDataTmp));
             }
         }
-        newData.push(newElement);
+        
     }
     return newData;
 }
