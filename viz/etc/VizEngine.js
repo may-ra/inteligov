@@ -17,7 +17,9 @@
             partition = d3.layout.partition().children(function(d){return d.children;}).value(function(d){return d.value;}).sort(null),
             pie = d3.layout.pie().sort(null).value(function(d) { return d.value; }),
             dataNodes, dataLinks, root, total, donutData = [], oldDonutData = [],
-            radius, innerRadius, arc, outerArc, innerArc, svg, innerGroup, outerGroup, totalLabel, onClick, onReady;
+            radius, innerRadius, arc, outerArc, innerArc, svg, 
+            innerGroup, outerGroup, totalLabel, descLabel,
+            onClick, onReady;
 
       function arcTweenBuilder(p1,i) {
           var s0,e0, p0, l = oldDonutData.length, tmp;
@@ -87,6 +89,7 @@
               parent = nodes.parent, that = this;
           
           totalLabel.text(nodes.value);
+          descLabel.text(nodes.label);
 
           oldDonutData = donutData.length? donutData.slice(0) : [];
           donutData = [];
@@ -100,14 +103,17 @@
                 
                 element.style("fill-opacity",0.7);
                 totalLabel.text(e.value);
+                descLabel.text(data.label);
 
                 pie.startAngle(e.startAngle).endAngle(e.endAngle);
                 children && drawHelper(innerGroup,innerArc,children);
             })
             .on("mouseout", function(e){
+                var parent = e.data.parent;
                 drawHelper(innerGroup,innerArc,[]);
                 d3.select(this).style("fill-opacity",0.4);
-                totalLabel.text(e.data.parent.value);
+                totalLabel.text(parent.value);
+                descLabel.text(parent.label);
             })
             .on("click", function(e){
                 var data = e.data;
@@ -191,8 +197,13 @@
 
         totalLabel = innerGroup.append("svg:text")
         .attr("class", "slice value")
-        .attr("dy", 5)
+        .attr("dy", 25)
         .attr("text-anchor", "middle"); // text-align: right;
+
+        descLabel = innerGroup.append("svg:text")
+        .attr("class", "slice label")
+        .attr("dy", 0)
+        .attr("text-anchor", "middle"); 
         /* ---------- */
 
         g = svg.append("svg:g").attr("class","arc");
