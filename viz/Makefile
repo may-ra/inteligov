@@ -22,6 +22,24 @@ all: VizEngine.js
 VizEngine.js: timeline.js
 	make clean && cat $(ALL) > VizEngine.js
 
+Viz: VizEngine.top.js Viz/VizEngine.Viz.js VizEngine.bottom.js
+	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js VizEngine.bottom.js > VizEngine.js
+
+Bar: VizEngine.top.js Viz/VizEngine.Viz.js Bar/VizEngine.Bar.js VizEngine.bottom.js
+	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js Bar/VizEngine.Bar.js VizEngine.bottom.js > VizEngine.js
+
+Donut: VizEngine.top.js Viz/VizEngine.Viz.js Donut/VizEngine.Donut.js VizEngine.bottom.js
+	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js Donut/VizEngine.Donut.js VizEngine.bottom.js > VizEngine.js
+
+Line: VizEngine.top.js Viz/VizEngine.Viz.js Line/VizEngine.Line.js VizEngine.bottom.js
+	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js Line/VizEngine.Line.js VizEngine.bottom.js > VizEngine.js
+
+MultiLine: VizEngine.top.js Viz/VizEngine.Viz.js MultiLine/VizEngine.MultiLine.js VizEngine.bottom.js
+	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js MultiLine/VizEngine.MultiLine.js VizEngine.bottom.js > VizEngine.js
+
+StackedBars: VizEngine.top.js Viz/VizEngine.Viz.js StackedBars/VizEngine.SBars.js VizEngine.bottom.js
+	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js StackedBars/VizEngine.SBars.js VizEngine.bottom.js > VizEngine.js
+
 clean:
 	rm -rf VizEngine.js
 
