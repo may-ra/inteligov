@@ -1,0 +1,21 @@
+
+.chart rect.bar {
+
+  stroke: white;
+
+}
+
+ 
+
+.chart text.bar {
+
+    fill: white;
+
+}
+
+.chart {
+
+font: 10px sans-serif;
+
+}
+ 
