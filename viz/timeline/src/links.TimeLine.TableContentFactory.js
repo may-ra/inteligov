@@ -3,9 +3,8 @@
 	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
 	links.Timeline.TableContentFactory.prototype.get = function(data) {
-		
+	
 		var borderColor = data.color.toString(),
-
 		$table = $(
 			"<div>",
 			{
@@ -41,9 +40,9 @@
 					$(
 						"<div>",
 						{
-							css:{"font-size":"10px",width:data.imgB64?"120px":"152px","text-align":"left",position:"relative",left:data.imgB64?"32px":"0px"},
+							css:{"font-size":"10px",width:data.imgB64?"120px":"152px","text-align":"left",position:"relative",left:data.imgB64?"32px":"0px",top:data.imgB64?data.label?"0px":"12px":"0px"},
 						}
-					).append(
+					).append(data.title ?
 						data.label ?
 								[$(
 								"<div>",
@@ -65,11 +64,11 @@
 						$(
 							"<div>",
 							{
-								css:{"border-style":"outset","border-width":"1px 1px 1px 0px",height:data.imgB64?"16px":"12px",padding:"2px 0 2px 6px","margin-top":"2px","border-collapse":"collapse"},
+								css:{"border-style":"outset","border-width":"1px 1px 1px 0px",height:data.imgB64?"16px":"12px",padding:"2px 0 2px 6px","margin-top":"2px","border-collapse":"collapse",left:data.imgB64?"2px":"0px"},
 								text:data.title,
 								"class":"timeline-event-detail timeline-event-detail-title"
 							}
-						)
+						) : null
 					)
 				]
 			),
@@ -78,20 +77,20 @@
 					$(
 						"<div>",
 						{
-							css:{"font-size":"10px",height:"24px",padding:0}
+							css:{"font-size":"10px",height:"24px",padding:0,top:data.title?data.label?null:"32px":null}
 						}
 					).append(
 						$(
 							"<div>",
 							{
 								"class":"timeline-event-detail timeline-event-detail-description",
-								css:{"border-style":"solid","margin-left":"16px","border-width":"0 1px 1px 1px",height:"100%","word-wrap":"break-word"},							
+								css:{"border-style":"solid","margin-left":data.title?"16px":"0px","border-width":"0 1px 1px 1px",height:"100%","word-wrap":"break-word"},
 							}
 						).append(
 							$(
 								"<p>",
 								{	
-									css:{"white-space": "pre-wrap","word-wrap":"break-word",display:"inline",height:"100%"},
+									css:{"white-space": "pre-wrap","word-wrap":"break-word",display:data.imgB64?data.label?"inline":null:"inline",height:"100%"},
 									text:data.desc
 								}
 							)
