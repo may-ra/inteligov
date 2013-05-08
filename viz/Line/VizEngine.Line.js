@@ -9,11 +9,12 @@ VizEngine.Line = function Line(container) {
       	xDateScale = d3.time.scale(),
       	line = d3.svg.line().x(function(d,i){ return xScale(i); }).y(function(d){ return yScale(d.value); });
       	dateFormat = d3.time.format("%m/%y"),
-    	detailDateFormat = d3.time.format("%d/%m/%y");
+    	detailDateFormat = d3.time.format("%d/%m/%y"),
+    	parseDate = d3.time.format("%d-%b-%y").parse;
 
     var line = d3.svg.line()
 	    .x(function(d,i) { return xScale(i); })
-	    .y(function(d) { return y(d.close); });
+	    .y(function(d) { return yScale(d.value); });
 
 	var _onClick = function onClick(){
 
@@ -79,13 +80,13 @@ VizEngine.Line = function Line(container) {
     		.on("mousemove", function() {
 		        var x = d3.event.pageX - offsetLeft; 
 		        var d = data[Math.floor(xScale.invert(x))],
-		            dy = y(d.close);
+		            dy = yScale(d.value);
 
 		        if(d){
 		            focus
 		            .attr("transform", "translate(" + x + "," + dy + ")");
 		            
-		            focus.select("text").text(d.close + " (" + detailDateFormat(d.date) + ")");
+		            focus.select("text").text(d.value + " (" + detailDateFormat(d.date) + ")");
 		            
 		            lineH
 		            .attr("x2",x-3)
@@ -128,7 +129,16 @@ VizEngine.Line = function Line(container) {
 	}    
 
 	this.render = function(data,options) {
-		var items = data.items;
+		var items = data.values, item;
+
+		console.log(items);
+
+		for(var l = items.length; l--;) {
+			item = items[l];
+			item.value = item.close;
+			item.date = parseDate(item.date);
+		}
+
 	  	items.sort(function(a,b){return d3.ascending(a.date||a.d,b.date||b.d);});
 	}
 
