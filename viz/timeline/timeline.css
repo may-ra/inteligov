@@ -43,6 +43,11 @@ div.timeline-event {
     display: inline-block;
 }
 
+div.timeline-event-detail-label {
+    line-height: 12px;
+    text-align: right;
+}
+
 div.timeline-event-selected {
     border-color: #FFC200;
     background-color: #FFF785;

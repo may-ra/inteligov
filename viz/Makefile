@@ -19,26 +19,26 @@ ALL=VizEngine.top.js $(join $(addsuffix /,$(DIRS)), $(subst StackedBars,SBars,$(
 all: VizEngine.js
 
 # If file doesn't exist, then make it!, but check first if TimeLine was made it
-VizEngine.js: timeline.js
+VizEngine.js: clean timeline.js
 	make clean && cat $(ALL) > VizEngine.js
 
-Viz: VizEngine.top.js Viz/VizEngine.Viz.js VizEngine.bottom.js
-	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js VizEngine.bottom.js > VizEngine.js
+Viz: clean VizEngine.top.js Viz/VizEngine.Viz.js VizEngine.bottom.js
+	rm -rf Line/VizEngine.js && cat VizEngine.top.js Viz/VizEngine.Viz.js VizEngine.bottom.js > Viz/VizEngine.js
 
-Bar: VizEngine.top.js Viz/VizEngine.Viz.js Bar/VizEngine.Bar.js VizEngine.bottom.js
-	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js Bar/VizEngine.Bar.js VizEngine.bottom.js > VizEngine.js
+Bar: clean VizEngine.top.js Viz/VizEngine.Viz.js Bar/VizEngine.Bar.js VizEngine.bottom.js
+	rm -rf Line/VizEngine.js && cat VizEngine.top.js Viz/VizEngine.Viz.js Bar/VizEngine.Bar.js VizEngine.bottom.js > Bar/VizEngine.js
 
-Donut: VizEngine.top.js Viz/VizEngine.Viz.js Donut/VizEngine.Donut.js VizEngine.bottom.js
-	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js Donut/VizEngine.Donut.js VizEngine.bottom.js > VizEngine.js
+Donut: clean VizEngine.top.js Viz/VizEngine.Viz.js Donut/VizEngine.Donut.js VizEngine.bottom.js
+	rm -rf Line/VizEngine.js && cat VizEngine.top.js Viz/VizEngine.Viz.js Donut/VizEngine.Donut.js VizEngine.bottom.js > Donut/VizEngine.js
 
-Line: VizEngine.top.js Viz/VizEngine.Viz.js Line/VizEngine.Line.js VizEngine.bottom.js
-	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js Line/VizEngine.Line.js VizEngine.bottom.js > VizEngine.js
+Line: clean VizEngine.top.js Viz/VizEngine.Viz.js Line/VizEngine.Line.js VizEngine.bottom.js
+	rm -rf Line/VizEngine.js && cat VizEngine.top.js Viz/VizEngine.Viz.js Line/VizEngine.Line.js VizEngine.bottom.js > Line/VizEngine.js
 
-MultiLine: VizEngine.top.js Viz/VizEngine.Viz.js MultiLine/VizEngine.MultiLine.js VizEngine.bottom.js
-	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js MultiLine/VizEngine.MultiLine.js VizEngine.bottom.js > VizEngine.js
+MultiLine: clean VizEngine.top.js Viz/VizEngine.Viz.js MultiLine/VizEngine.MultiLine.js VizEngine.bottom.js
+	rm -rf Line/VizEngine.js && cat VizEngine.top.js Viz/VizEngine.Viz.js MultiLine/VizEngine.MultiLine.js VizEngine.bottom.js > MultiLine/VizEngine.js
 
-StackedBars: VizEngine.top.js Viz/VizEngine.Viz.js StackedBars/VizEngine.SBars.js VizEngine.bottom.js
-	make clean && cat VizEngine.top.js Viz/VizEngine.Viz.js StackedBars/VizEngine.SBars.js VizEngine.bottom.js > VizEngine.js
+StackedBars: clean VizEngine.top.js Viz/VizEngine.Viz.js StackedBars/VizEngine.SBars.js VizEngine.bottom.js
+	rm -rf Line/VizEngine.js && cat VizEngine.top.js Viz/VizEngine.Viz.js StackedBars/VizEngine.SBars.js VizEngine.bottom.js > StackedBars/VizEngine.js
 
 clean:
 	rm -rf VizEngine.js

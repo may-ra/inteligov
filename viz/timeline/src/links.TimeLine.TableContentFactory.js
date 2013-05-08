@@ -3,12 +3,13 @@
 	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
 	links.Timeline.TableContentFactory.prototype.get = function(data) {
-		
+		delete data.title;
+
 		var borderColor = data.color.toString(),
 		$table = $(
 			"<div>",
 			{
-				css:{width:"152px", "border-collapse":"collapse"},
+				css:{width:"182px", "border-collapse":"collapse"},
 				"class":"timeline-event-detail"
 			}
 		),
@@ -47,7 +48,7 @@
 								[$(
 								"<div>",
 								{
-									css:{color:"white","font-size":"9px","text-align":"left",padding:"0 0 0 5px",position:"relative"},
+									css:{color:"white","font-size":"9px",padding:"0 0 0 5px",position:"relative"},
 									text:data.label,
 									"class":"timeline-event-detail-label"
 								}
@@ -73,7 +74,7 @@
 						$(
 							"<div>",
 							{
-								css:{color:"white","font-size":"9px","text-align":"left",padding:"0 0 0 5px",position:"relative"},
+								css:{color:"white","font-size":"9px",padding:"0 0 0 5px",position:"relative"},
 								text:data.label,
 								"class":"timeline-event-detail-label"
 							}
