@@ -6451,7 +6451,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 	links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
 	links.Timeline.TableContentFactory.prototype.get = function(data) {
-	
+		
 		var borderColor = data.color.toString(),
 		$table = $(
 			"<div>",
@@ -6515,6 +6515,15 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
 								css:{"border-style":"outset","border-width":"1px 1px 1px 0px",height:data.imgB64?"16px":"12px",padding:"2px 0 2px 6px","margin-top":"2px","border-collapse":"collapse",left:data.imgB64?"2px":"0px"},
 								text:data.title,
 								"class":"timeline-event-detail timeline-event-detail-title"
+							}
+						) : 
+						data.label ? 
+						$(
+							"<div>",
+							{
+								css:{color:"white","font-size":"9px","text-align":"left",padding:"0 0 0 5px",position:"relative"},
+								text:data.label,
+								"class":"timeline-event-detail-label"
 							}
 						) : null
 					)
