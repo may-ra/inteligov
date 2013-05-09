@@ -200,7 +200,7 @@ VizEngine.Progression = function Progression(container) {
 	    	group = entries[i];
 	    	line = new VizEngine.Line(container);
 	    	lines.push(line);
-	    	line.render(group.value,lineFactory,{color:data.color[group.key],label:group.key});
+	    	line.render(group.value,lineFactory,{color:data.color[group.key]||data.color,label:group.key});
 	    }
 
 	    /* [IMPORTANT] add on top of all other elements */
