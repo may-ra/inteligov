@@ -157,6 +157,7 @@
       }
 
       function initialize(options) {
+        this.options = options;
         width = options.width || width || 100;
         height = options.height || height || 100;
 
@@ -217,13 +218,12 @@
       }
 
       function setData(data) {
-        var datum
 
         if($.isArray(data)) {
           var groups = d3.nest().key(function(e){return e.g || e.group;}).map(data, d3.map), 
               length = groups.keys().length, group;
 
-            data = {label:'global'}
+            data = {label:this.options.globalLabel}
             if(length === 1) {
               data.children = groups.values()[0];
             } else {
