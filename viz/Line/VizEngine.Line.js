@@ -14,7 +14,8 @@ VizEngine.Viz.prototype.getInfo = function(){
 
 /** <Line> **/
 VizEngine.Line = function Line(container) {
-	var items, valueLine, focus, detailDateFormat = d3.time.format("%d/%m/%y"),
+	var items, valueLine, focus, 
+		detailDateFormat = d3.time.format("%d/%m/%y"), detailValueFormat = d3.format(",.2f"),
 		bisectDate = d3.bisector(function(d) { return d.ts; }).left;
 
 	function _draw(lineFactory,options){
@@ -69,7 +70,7 @@ VizEngine.Line = function Line(container) {
 
 	        focus
 	        .attr("transform", "translate(" + coords.join(",") + ")")
-			.select("text").text(item.value + " (" + detailDateFormat(new Date(item.ts)) + ")");
+			.select("text").text(detailValueFormat(item.value) + " (" + detailDateFormat(new Date(item.ts)) + ")");
 
 			valueLine
 	        .attr("x2",coords[0]-3)
@@ -173,7 +174,7 @@ VizEngine.Progression = function Progression(container) {
 			
 		var parseDate = d3.time.format("%d-%b-%y").parse;
 
-		_setOptions(options||{});
+		_setOptions.call(this,options||{});
 
 		for(i = items.length; i--;) {
 			item = items[i];
@@ -194,8 +195,6 @@ VizEngine.Progression = function Progression(container) {
 			.map(items,d3.map);
 
 		var entries = groups.entries();
-
-		console.log([groups,entries]);
 
 	    for(var i = entries.length; i--;) {
 	    	group = entries[i];
