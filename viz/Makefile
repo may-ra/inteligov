@@ -16,7 +16,7 @@ SOURCES=$(addsuffix .js,$(addprefix VizEngine.,$(DIRS))) timeline/timeline.js
 ALL=VizEngine.top.js $(join $(addsuffix /,$(DIRS)), $(subst StackedBars,SBars,$(SOURCES))) VizEngine.bottom.js
 
 # Necesary file to continue
-all: VizEngine.js
+all: VizEngine.js timeline.js
 
 Engines: Viz Bar Donut Line MultiLine StackedBars VizEngine.js
 
