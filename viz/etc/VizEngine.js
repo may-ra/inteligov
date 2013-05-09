@@ -197,12 +197,12 @@
         .attr("r", innerRadius);
 
         totalLabel = innerGroup.append("svg:text")
-        .attr("class", "slice value")
+        .attr("class", "donut slice value")
         .attr("dy", 25)
         .attr("text-anchor", "middle"); // text-align: right;
 
         descLabel = innerGroup.append("svg:text")
-        .attr("class", "slice label")
+        .attr("class", "donut slice label")
         .attr("dy", 0)
         .attr("text-anchor", "middle"); 
         /* ---------- */
