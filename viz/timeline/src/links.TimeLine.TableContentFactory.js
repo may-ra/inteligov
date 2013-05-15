@@ -3,7 +3,7 @@
     links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
     links.Timeline.TableContentFactory.prototype.get = function (data) {
-        
+        delete data.desc;
         var borderColor = data.color.toString(),
             $table = $(
                 "<div>", {
@@ -25,7 +25,7 @@
                     css: {
                         "font-size": "10px",
                         position: "relative",
-                        top: "0px",
+                        top: data.label && data.title && !data.desc ? "6px" : "0px",
                         "left": "0px"
                     }
                 }).append(

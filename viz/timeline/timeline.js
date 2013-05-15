@@ -6458,7 +6458,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
     links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
     links.Timeline.TableContentFactory.prototype.get = function (data) {
-        
+        delete data.desc;
         var borderColor = data.color.toString(),
             $table = $(
                 "<div>", {
@@ -6480,7 +6480,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     css: {
                         "font-size": "10px",
                         position: "relative",
-                        top: "0px",
+                        top: data.label && data.title && !data.desc ? "6px" : "0px",
                         "left": "0px"
                     }
                 }).append(
