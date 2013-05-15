@@ -819,7 +819,6 @@ links.Timeline.formatData = function(data) {
         }
       }
     ------------------------------------ */
-    console.log(data);
     var newData = [], element, newElement, 
         events, event, eventType, dataTmp, eventDataTmp;
     for(var l = data.length; l--;) {
