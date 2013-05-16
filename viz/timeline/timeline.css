@@ -39,7 +39,7 @@ div.timeline-axis-text-major {
 div.timeline-event {
     color: #1A1A1A;
     border-color: #97B0F8;
-    background-color: #D5DDF6;
+    background-color: #FFFFFF;
     display: inline-block;
 }
 
@@ -50,7 +50,7 @@ div.timeline-event-detail-label {
 
 div.timeline-event-selected {
     border-color: #FFC200;
-    background-color: #FFF785;
+    /*background-color: #FFF785;*/
     z-index: 999;
 }
 
@@ -66,7 +66,7 @@ div.timeline-event-cluster div.timeline-event-dot {
 div.timeline-event-box {
     text-align: center;
     border-style: solid;
-    border-width: 1px;
+    border-width: 2px;
     border-radius: 5px;
     -moz-border-radius: 5px; /* For Firefox 3.6 and older */
 }

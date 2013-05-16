@@ -67,7 +67,8 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
     divBox.style.position = "absolute";
 
     // contents box, right from the dot
-    var divContent = document.createElement("DIV");
+    var divContent = document.createElement("DIV"), dotLabel = this.title || "Evento";
+    $(divContent).append(dotLabel).css({"font-size":"10px"});
     divContent.className = "timeline-event-content";
     divBox.appendChild(divContent);
 

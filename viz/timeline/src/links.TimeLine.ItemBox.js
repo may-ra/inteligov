@@ -85,8 +85,8 @@ links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
         divLine = document.createElement("DIV"), divLineStyle = divLine.style,
         divDot = document.createElement("DIV"), divDotStyle = divDot.style,
         color = this.color.toString(), 
-        borderColor = this.color.darker().darker().toString(), 
-        bgColor = this.color.darker().toString();
+        borderColor = this.color.darker().toString(), 
+        bgColor = this.color.toString();
 
     divBoxStyle.left = this.left + "px";
     divBoxStyle.top = this.top + "px";
@@ -102,7 +102,8 @@ links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
     
     divBoxStyle.position = divDotStyle.position = divLineStyle.position = "absolute";
     divDotStyle.width = divDotStyle.height = divLineStyle.width = "0px";
-    divBoxStyle.backgroundColor = divLineStyle.borderColor = bgColor;
+    //divBoxStyle.backgroundColor = 
+    divLineStyle.borderColor = bgColor;
     divBoxStyle.borderColor = divDotStyle.borderColor = color;
     // important: the vertical line is added at the front of the list of elements,
     // so it will be drawn behind all boxes and ranges

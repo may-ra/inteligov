@@ -819,7 +819,6 @@ links.Timeline.formatData = function(data) {
         }
       }
     ------------------------------------ */
-    console.log(data);
     var newData = [], element, newElement, 
         events, event, eventType, dataTmp, eventDataTmp;
     for(var l = data.length; l--;) {
@@ -4988,8 +4987,8 @@ links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
         divLine = document.createElement("DIV"), divLineStyle = divLine.style,
         divDot = document.createElement("DIV"), divDotStyle = divDot.style,
         color = this.color.toString(), 
-        borderColor = this.color.darker().darker().toString(), 
-        bgColor = this.color.darker().toString();
+        borderColor = this.color.darker().toString(), 
+        bgColor = this.color.toString();
 
     divBoxStyle.left = this.left + "px";
     divBoxStyle.top = this.top + "px";
@@ -5005,7 +5004,8 @@ links.Timeline.ItemBox.prototype.createDOM = function (contentGenerator) {
     
     divBoxStyle.position = divDotStyle.position = divLineStyle.position = "absolute";
     divDotStyle.width = divDotStyle.height = divLineStyle.width = "0px";
-    divBoxStyle.backgroundColor = divLineStyle.borderColor = bgColor;
+    //divBoxStyle.backgroundColor = 
+    divLineStyle.borderColor = bgColor;
     divBoxStyle.borderColor = divDotStyle.borderColor = color;
     // important: the vertical line is added at the front of the list of elements,
     // so it will be drawn behind all boxes and ranges
@@ -5328,7 +5328,8 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
     divBox.style.position = "absolute";
 
     // contents box, right from the dot
-    var divContent = document.createElement("DIV");
+    var divContent = document.createElement("DIV"), dotLabel = this.title || "Evento";
+    $(divContent).append(dotLabel).css({"font-size":"10px"});
     divContent.className = "timeline-event-content";
     divBox.appendChild(divContent);
 
@@ -6458,7 +6459,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
     links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
     links.Timeline.TableContentFactory.prototype.get = function (data) {
-        delete data.desc;
+
         var borderColor = data.color.toString(),
             $table = $(
                 "<div>", {
@@ -6480,7 +6481,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     css: {
                         "font-size": "10px",
                         position: "relative",
-                        top: data.label && data.title && !data.desc ? "6px" : "0px",
+                        top: "2px",
                         "left": "0px"
                     }
                 }).append(
@@ -6511,6 +6512,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                         width: data.imgB64 ? "150px" : "182px",
                         "text-align": "left",
                         position: "relative",
+                        left: data.imgB64 ? "32px" : "0px",
                         top: data.imgB64 ? data.label ? "0px" : "12px" : "0px"
                     },
                 }).append(data.title ?
@@ -6529,12 +6531,12 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                         "<div>", {
                         css: {
                             "border-style": "outset",
-                            "border-width": "1px 1px 1px 0px",
+                            "border-width": "1px 1px 1px 1px",
                             position: "relative",
                             padding: "2px 0 0 6px",
                             height: "20px",
-                            left: data.imgB64 ? "34px" : "0px",
-                            width: data.imgB64 ? "150px" : "182px"
+                            left: data.imgB64 ? "2px" : "2px",
+                            width: data.imgB64 ? "140px" : "172px"
                         },
                         text: data.title,
                         "class": "timeline-event-detail timeline-event-detail-title"
@@ -6544,7 +6546,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     "<div>", {
                     css: {
                         "border-style": "outset",
-                        "border-width": "1px 1px 1px 0px",
+                        "border-width": "1px 1px 1px 1px",
                         height: data.imgB64 ? "16px" : "12px",
                         padding: "2px 0 2px 6px",
                         "margin-top": "2px",
@@ -6585,7 +6587,6 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     "border-style": "solid",
                     "margin-left": data.title ? "16px" : "0px",
                     "border-width": "0 1px 1px 1px",
-                    height: "100%",
                     "word-wrap": "break-word"
                 },
             }).append(

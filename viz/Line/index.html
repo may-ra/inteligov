@@ -1,194 +1,67 @@
-<div id="line"></div>
+<style type="text/css">
+body {
+  margin:0;
+  border:0;  
+}
+  
+path.line {
+    fill:none;
+    stroke: steelblue;
+    stroke-width:1.5px;
+    stroke-opacity:0.5; 
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: none;
+  stroke: steelblue;
+  stroke-opacity:1;
+  stroke-width:1.5;
+}
+
+line.focus {
+    stroke: #6a8484;
+    stroke-opacity:0.4;
+    stroke-width:0.8;
+}
+
+text.focus.text {
+    font: bold 9px/9px sans-serif;    
+}
+
+.axis text {
+    font: 9px/9px sans-serif;     
+}
+</style>
+
+<div id="progression"></div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="VizEngine.Line.js"></script>
 
 <script type="text/javascript">
-	var line = new VizEngine.Line(document.getElementById("line")),
+	var progression = new VizEngine.Progression(document.getElementById("progression")),
 		data = {
-			color:"#097097",
-			values:[
-				{"date":"1-May-12","close":582.13},
-				{"date":"30-Apr-12","close":583.98},
-				{"date":"27-Apr-12","close":603.00},
-				{"date":"26-Apr-12","close":607.70},
-				{"date":"25-Apr-12","close":610.00},
-				{"date":"24-Apr-12","close":560.28},
-				{"date":"23-Apr-12","close":571.70},
-				{"date":"20-Apr-12","close":572.98},
-				{"date":"19-Apr-12","close":587.44},
-				{"date":"18-Apr-12","close":608.34},
-				{"date":"17-Apr-12","close":609.70},
-				{"date":"16-Apr-12","close":580.13},
-				{"date":"13-Apr-12","close":605.23},
-				{"date":"12-Apr-12","close":622.77},
-				{"date":"11-Apr-12","close":626.20},
-				{"date":"10-Apr-12","close":628.44},
-				{"date":"9-Apr-12","close":636.23},
-				{"date":"5-Apr-12","close":633.68},
-				{"date":"4-Apr-12","close":624.31},
-				{"date":"3-Apr-12","close":629.32},
-				{"date":"2-Apr-12","close":618.63},
-				{"date":"30-Mar-12","close":599.55},
-				{"date":"29-Mar-12","close":609.86},
-				{"date":"28-Mar-12","close":617.62},
-				{"date":"27-Mar-12","close":614.48},
-				{"date":"26-Mar-12","close":606.98},
-				{"date":"23-Mar-12","close":596.05},
-				{"date":"22-Mar-12","close":599.34},
-				{"date":"21-Mar-12","close":602.50},
-				{"date":"20-Mar-12","close":605.96},
-				{"date":"19-Mar-12","close":601.10},
-				{"date":"16-Mar-12","close":585.57},
-				{"date":"15-Mar-12","close":585.56},
-				{"date":"14-Mar-12","close":589.58},
-				{"date":"13-Mar-12","close":568.10},
-				{"date":"12-Mar-12","close":552.00},
-				{"date":"9-Mar-12","close":545.17},
-				{"date":"8-Mar-12","close":541.99},
-				{"date":"7-Mar-12","close":530.69},
-				{"date":"6-Mar-12","close":530.26},
-				{"date":"5-Mar-12","close":533.16},
-				{"date":"2-Mar-12","close":545.18},
-				{"date":"1-Mar-12","close":544.47},
-				{"date":"2-May-11","close":346.28},
-				{"date":"29-Apr-11","close":350.13},
-				{"date":"28-Apr-11","close":346.75},
-				{"date":"27-Apr-11","close":350.15},
-				{"date":"26-Apr-11","close":350.42},
-				{"date":"25-Apr-11","close":353.01},
-				{"date":"21-Apr-11","close":350.70},
-				{"date":"20-Apr-11","close":342.41},
-				{"date":"19-Apr-11","close":337.86},
-				{"date":"18-Apr-11","close":331.85},
-				{"date":"15-Apr-11","close":327.46},
-				{"date":"14-Apr-11","close":332.42},
-				{"date":"13-Apr-11","close":336.13},
-				{"date":"12-Apr-11","close":332.40},
-				{"date":"11-Apr-11","close":330.80},
-				{"date":"8-Apr-11","close":335.06},
-				{"date":"7-Apr-11","close":338.08},
-				{"date":"6-Apr-11","close":338.04},
-				{"date":"5-Apr-11","close":338.89},
-				{"date":"4-Apr-11","close":341.19},
-				{"date":"1-Apr-11","close":344.56},
-				{"date":"31-Mar-11","close":348.51},
-				{"date":"30-Mar-11","close":348.63},
-				{"date":"29-Mar-11","close":350.96},
-				{"date":"28-Mar-11","close":350.44},
-				{"date":"25-Mar-11","close":351.54},
-				{"date":"24-Mar-11","close":344.97},
-				{"date":"23-Mar-11","close":339.19},
-				{"date":"22-Mar-11","close":341.20},
-				{"date":"21-Mar-11","close":339.30},
-				{"date":"18-Mar-11","close":330.67},
-				{"date":"17-Mar-11","close":334.64},
-				{"date":"16-Mar-11","close":330.01},
-				{"date":"15-Mar-11","close":345.43},
-				{"date":"14-Mar-11","close":353.56},
-				{"date":"11-Mar-11","close":351.99},
-				{"date":"10-Mar-11","close":346.67},
-				{"date":"9-Mar-11","close":352.47},
-				{"date":"8-Mar-11","close":355.76},
-				{"date":"7-Mar-11","close":355.36},
-				{"date":"4-Mar-11","close":360.00},
-				{"date":"3-Mar-11","close":359.56},
-				{"date":"2-Mar-11","close":352.12},
-				{"date":"1-Mar-11","close":349.31},
-				{"date":"3-May-10","close":266.35},
-				{"date":"30-Apr-10","close":261.09},
-				{"date":"29-Apr-10","close":268.64},
-				{"date":"28-Apr-10","close":261.60},
-				{"date":"27-Apr-10","close":262.04},
-				{"date":"26-Apr-10","close":269.50},
-				{"date":"23-Apr-10","close":270.83},
-				{"date":"22-Apr-10","close":266.47},
-				{"date":"21-Apr-10","close":259.22},
-				{"date":"20-Apr-10","close":244.59},
-				{"date":"19-Apr-10","close":247.07},
-				{"date":"16-Apr-10","close":247.40},
-				{"date":"15-Apr-10","close":248.92},
-				{"date":"14-Apr-10","close":245.69},
-				{"date":"13-Apr-10","close":242.43},
-				{"date":"12-Apr-10","close":242.29},
-				{"date":"9-Apr-10","close":241.79},
-				{"date":"8-Apr-10","close":239.95},
-				{"date":"7-Apr-10","close":240.60},
-				{"date":"6-Apr-10","close":239.54},
-				{"date":"5-Apr-10","close":238.49},
-				{"date":"2-Apr-10","close":235.97},
-				{"date":"1-Apr-10","close":235.97},
-				{"date":"31-Mar-10","close":235.00},
-				{"date":"30-Mar-10","close":235.84},
-				{"date":"29-Mar-10","close":232.39},
-				{"date":"26-Mar-10","close":230.90},
-				{"date":"25-Mar-10","close":226.65},
-				{"date":"24-Mar-10","close":229.37},
-				{"date":"23-Mar-10","close":228.36},
-				{"date":"22-Mar-10","close":224.75},
-				{"date":"19-Mar-10","close":222.25},
-				{"date":"18-Mar-10","close":224.65},
-				{"date":"17-Mar-10","close":224.12},
-				{"date":"16-Mar-10","close":224.45},
-				{"date":"15-Mar-10","close":223.84},
-				{"date":"12-Mar-10","close":226.60},
-				{"date":"11-Mar-10","close":225.50},
-				{"date":"10-Mar-10","close":224.84},
-				{"date":"9-Mar-10","close":223.02},
-				{"date":"8-Mar-10","close":219.08},
-				{"date":"5-Mar-10","close":218.95},
-				{"date":"4-Mar-10","close":210.71},
-				{"date":"3-Mar-10","close":209.33},
-				{"date":"2-Mar-10","close":208.85},
-				{"date":"1-Mar-10","close":208.99},
-				{"date":"1-May-09","close":127.24},
-				{"date":"30-Apr-09","close":125.83},
-				{"date":"29-Apr-09","close":125.14},
-				{"date":"28-Apr-09","close":123.90},
-				{"date":"27-Apr-09","close":124.73},
-				{"date":"24-Apr-09","close":123.90},
-				{"date":"23-Apr-09","close":125.40},
-				{"date":"22-Apr-09","close":121.51},
-				{"date":"21-Apr-09","close":121.76},
-				{"date":"20-Apr-09","close":120.50},
-				{"date":"17-Apr-09","close":123.42},
-				{"date":"16-Apr-09","close":121.45},
-				{"date":"15-Apr-09","close":117.64},
-				{"date":"14-Apr-09","close":118.31},
-				{"date":"13-Apr-09","close":120.22},
-				{"date":"10-Apr-09","close":119.57},
-				{"date":"9-Apr-09","close":119.57},
-				{"date":"8-Apr-09","close":116.32},
-				{"date":"7-Apr-09","close":115.00},
-				{"date":"6-Apr-09","close":118.45},
-				{"date":"3-Apr-09","close":115.99},
-				{"date":"2-Apr-09","close":112.71},
-				{"date":"1-Apr-09","close":108.69},
-				{"date":"31-Mar-09","close":105.12},
-				{"date":"30-Mar-09","close":104.49},
-				{"date":"27-Mar-09","close":106.85},
-				{"date":"26-Mar-09","close":109.87},
-				{"date":"25-Mar-09","close":106.49},
-				{"date":"24-Mar-09","close":106.50},
-				{"date":"23-Mar-09","close":107.66},
-				{"date":"20-Mar-09","close":101.59},
-				{"date":"19-Mar-09","close":101.62},
-				{"date":"18-Mar-09","close":101.52},
-				{"date":"17-Mar-09","close":99.66},
-				{"date":"16-Mar-09","close":95.42},
-				{"date":"13-Mar-09","close":95.93},
-				{"date":"12-Mar-09","close":96.35},
-				{"date":"11-Mar-09","close":92.68},
-				{"date":"10-Mar-09","close":88.63},
-				{"date":"9-Mar-09","close":83.11},
-				{"date":"6-Mar-09","close":85.30},
-				{"date":"5-Mar-09","close":88.84},
-				{"date":"4-Mar-09","close":91.17},
-				{"date":"3-Mar-09","close":88.37},
-				{"date":"2-Mar-09","close":87.94}
-			]
+			color:{
+				"a":"#1f8d2e",
+				"b":"#e6e99d"
+			},
+			values:[{"date":"1-May-12","close":582.13,"g":"a"},{"date":"30-Apr-12","close":583.98,"g":"a"},{"date":"27-Apr-12","close":603,"g":"a"},{"date":"26-Apr-12","close":607.7,"g":"a"},{"date":"25-Apr-12","close":610,"g":"a"},{"date":"24-Apr-12","close":560.28,"g":"a"},{"date":"23-Apr-12","close":571.7,"g":"a"},{"date":"20-Apr-12","close":572.98,"g":"a"},{"date":"19-Apr-12","close":587.44,"g":"a"},{"date":"18-Apr-12","close":608.34,"g":"a"},{"date":"17-Apr-12","close":609.7,"g":"a"},{"date":"16-Apr-12","close":580.13,"g":"a"},{"date":"13-Apr-12","close":605.23,"g":"a"},{"date":"12-Apr-12","close":622.77,"g":"a"},{"date":"11-Apr-12","close":626.2,"g":"a"},{"date":"10-Apr-12","close":628.44,"g":"a"},{"date":"9-Apr-12","close":636.23,"g":"a"},{"date":"5-Apr-12","close":633.68,"g":"a"},{"date":"4-Apr-12","close":624.31,"g":"a"},{"date":"3-Apr-12","close":629.32,"g":"a"},{"date":"2-Apr-12","close":618.63,"g":"a"},{"date":"30-Mar-12","close":599.55,"g":"a"},{"date":"29-Mar-12","close":609.86,"g":"a"},{"date":"28-Mar-12","close":617.62,"g":"a"},{"date":"27-Mar-12","close":614.48,"g":"a"},{"date":"26-Mar-12","close":606.98,"g":"a"},{"date":"23-Mar-12","close":596.05,"g":"a"},{"date":"22-Mar-12","close":599.34,"g":"a"},{"date":"21-Mar-12","close":602.5,"g":"a"},{"date":"20-Mar-12","close":605.96,"g":"a"},{"date":"19-Mar-12","close":601.1,"g":"a"},{"date":"16-Mar-12","close":585.57,"g":"a"},{"date":"15-Mar-12","close":585.56,"g":"a"},{"date":"14-Mar-12","close":589.58,"g":"a"},{"date":"13-Mar-12","close":568.1,"g":"a"},{"date":"12-Mar-12","close":552,"g":"a"},{"date":"9-Mar-12","close":545.17,"g":"a"},{"date":"8-Mar-12","close":541.99,"g":"a"},{"date":"7-Mar-12","close":530.69,"g":"a"},{"date":"6-Mar-12","close":530.26,"g":"a"},{"date":"5-Mar-12","close":533.16,"g":"a"},{"date":"2-Mar-12","close":545.18,"g":"a"},{"date":"1-Mar-12","close":544.47,"g":"a"},{"date":"2-May-11","close":346.28,"g":"a"},{"date":"29-Apr-11","close":350.13,"g":"a"},{"date":"28-Apr-11","close":346.75,"g":"a"},{"date":"27-Apr-11","close":350.15,"g":"a"},{"date":"26-Apr-11","close":350.42,"g":"a"},{"date":"25-Apr-11","close":353.01,"g":"a"},{"date":"21-Apr-11","close":350.7,"g":"a"},{"date":"20-Apr-11","close":342.41,"g":"a"},{"date":"19-Apr-11","close":337.86,"g":"a"},{"date":"18-Apr-11","close":331.85,"g":"a"},{"date":"15-Apr-11","close":327.46,"g":"a"},{"date":"14-Apr-11","close":332.42,"g":"a"},{"date":"13-Apr-11","close":336.13,"g":"a"},{"date":"12-Apr-11","close":332.4,"g":"a"},{"date":"11-Apr-11","close":330.8,"g":"a"},{"date":"8-Apr-11","close":335.06,"g":"a"},{"date":"7-Apr-11","close":338.08,"g":"a"},{"date":"6-Apr-11","close":338.04,"g":"a"},{"date":"5-Apr-11","close":338.89,"g":"a"},{"date":"4-Apr-11","close":341.19,"g":"a"},{"date":"1-Apr-11","close":344.56,"g":"a"},{"date":"31-Mar-11","close":348.51,"g":"a"},{"date":"30-Mar-11","close":348.63,"g":"a"},{"date":"29-Mar-11","close":350.96,"g":"a"},{"date":"28-Mar-11","close":350.44,"g":"a"},{"date":"25-Mar-11","close":351.54,"g":"a"},{"date":"24-Mar-11","close":344.97,"g":"a"},{"date":"23-Mar-11","close":339.19,"g":"a"},{"date":"22-Mar-11","close":341.2,"g":"a"},{"date":"21-Mar-11","close":339.3,"g":"a"},{"date":"18-Mar-11","close":330.67,"g":"a"},{"date":"17-Mar-11","close":334.64,"g":"a"},{"date":"16-Mar-11","close":330.01,"g":"a"},{"date":"15-Mar-11","close":345.43,"g":"a"},{"date":"14-Mar-11","close":353.56,"g":"a"},{"date":"11-Mar-11","close":351.99,"g":"a"},{"date":"10-Mar-11","close":346.67,"g":"a"},{"date":"9-Mar-11","close":352.47,"g":"a"},{"date":"8-Mar-11","close":355.76,"g":"a"},{"date":"7-Mar-11","close":355.36,"g":"a"},{"date":"4-Mar-11","close":360,"g":"a"},{"date":"3-Mar-11","close":359.56,"g":"a"},{"date":"2-Mar-11","close":352.12,"g":"a"},{"date":"1-Mar-11","close":349.31,"g":"a"},{"date":"3-May-10","close":266.35,"g":"a"},{"date":"30-Apr-10","close":261.09,"g":"a"},{"date":"29-Apr-10","close":268.64,"g":"a"},{"date":"28-Apr-10","close":261.6,"g":"a"},{"date":"27-Apr-10","close":262.04,"g":"a"},{"date":"26-Apr-10","close":269.5,"g":"a"},{"date":"23-Apr-10","close":270.83,"g":"a"},{"date":"22-Apr-10","close":266.47,"g":"a"},{"date":"21-Apr-10","close":259.22,"g":"a"},{"date":"20-Apr-10","close":244.59,"g":"a"},{"date":"19-Apr-10","close":247.07,"g":"a"},{"date":"16-Apr-10","close":247.4,"g":"a"},{"date":"15-Apr-10","close":248.92,"g":"a"},{"date":"14-Apr-10","close":245.69,"g":"a"},{"date":"13-Apr-10","close":242.43,"g":"a"},{"date":"12-Apr-10","close":242.29,"g":"a"},{"date":"9-Apr-10","close":241.79,"g":"a"},{"date":"8-Apr-10","close":239.95,"g":"a"},{"date":"7-Apr-10","close":240.6,"g":"a"},{"date":"6-Apr-10","close":239.54,"g":"a"},{"date":"5-Apr-10","close":238.49,"g":"a"},{"date":"2-Apr-10","close":235.97,"g":"a"},{"date":"1-Apr-10","close":235.97,"g":"a"},{"date":"31-Mar-10","close":235,"g":"a"},{"date":"30-Mar-10","close":235.84,"g":"a"},{"date":"29-Mar-10","close":232.39,"g":"a"},{"date":"26-Mar-10","close":230.9,"g":"a"},{"date":"25-Mar-10","close":226.65,"g":"a"},{"date":"24-Mar-10","close":229.37,"g":"a"},{"date":"23-Mar-10","close":228.36,"g":"a"},{"date":"22-Mar-10","close":224.75,"g":"a"},{"date":"19-Mar-10","close":222.25,"g":"a"},{"date":"18-Mar-10","close":224.65,"g":"a"},{"date":"17-Mar-10","close":224.12,"g":"a"},{"date":"16-Mar-10","close":224.45,"g":"a"},{"date":"15-Mar-10","close":223.84,"g":"a"},{"date":"12-Mar-10","close":226.6,"g":"a"},{"date":"11-Mar-10","close":225.5,"g":"a"},{"date":"10-Mar-10","close":224.84,"g":"a"},{"date":"9-Mar-10","close":223.02,"g":"a"},{"date":"8-Mar-10","close":219.08,"g":"a"},{"date":"5-Mar-10","close":218.95,"g":"a"},{"date":"4-Mar-10","close":210.71,"g":"a"},{"date":"3-Mar-10","close":209.33,"g":"a"},{"date":"2-Mar-10","close":208.85,"g":"a"},{"date":"1-Mar-10","close":208.99,"g":"a"},{"date":"1-May-09","close":127.24,"g":"a"},{"date":"30-Apr-09","close":125.83,"g":"a"},{"date":"29-Apr-09","close":125.14,"g":"a"},{"date":"28-Apr-09","close":123.9,"g":"a"},{"date":"27-Apr-09","close":124.73,"g":"a"},{"date":"24-Apr-09","close":123.9,"g":"a"},{"date":"23-Apr-09","close":125.4,"g":"a"},{"date":"22-Apr-09","close":121.51,"g":"a"},{"date":"21-Apr-09","close":121.76,"g":"a"},{"date":"20-Apr-09","close":120.5,"g":"a"},{"date":"17-Apr-09","close":123.42,"g":"a"},{"date":"16-Apr-09","close":121.45,"g":"a"},{"date":"15-Apr-09","close":117.64,"g":"a"},{"date":"14-Apr-09","close":118.31,"g":"a"},{"date":"13-Apr-09","close":120.22,"g":"a"},{"date":"10-Apr-09","close":119.57,"g":"a"},{"date":"9-Apr-09","close":119.57,"g":"a"},{"date":"8-Apr-09","close":116.32,"g":"a"},{"date":"7-Apr-09","close":115,"g":"a"},{"date":"6-Apr-09","close":118.45,"g":"a"},{"date":"3-Apr-09","close":115.99,"g":"a"},{"date":"2-Apr-09","close":112.71,"g":"a"},{"date":"1-Apr-09","close":108.69,"g":"a"},{"date":"31-Mar-09","close":105.12,"g":"a"},{"date":"30-Mar-09","close":104.49,"g":"a"},{"date":"27-Mar-09","close":106.85,"g":"a"},{"date":"26-Mar-09","close":109.87,"g":"a"},{"date":"25-Mar-09","close":106.49,"g":"a"},{"date":"24-Mar-09","close":106.5,"g":"a"},{"date":"23-Mar-09","close":107.66,"g":"a"},{"date":"20-Mar-09","close":101.59,"g":"a"},{"date":"19-Mar-09","close":101.62,"g":"a"},{"date":"18-Mar-09","close":101.52,"g":"a"},{"date":"17-Mar-09","close":99.66,"g":"a"},{"date":"16-Mar-09","close":95.42,"g":"a"},{"date":"13-Mar-09","close":95.93,"g":"a"},{"date":"12-Mar-09","close":96.35,"g":"a"},{"date":"11-Mar-09","close":92.68,"g":"a"},{"date":"10-Mar-09","close":88.63,"g":"a"},{"date":"9-Mar-09","close":83.11,"g":"a"},{"date":"6-Mar-09","close":85.3,"g":"a"},{"date":"5-Mar-09","close":88.84,"g":"a"},{"date":"4-Mar-09","close":91.17,"g":"a"},{"date":"3-Mar-09","close":88.37,"g":"a"},{"date":"2-Mar-09","close":87.94,"g":"a"},{"date":"1-May-12","close":682.13,"g":"b"},{"date":"30-Apr-12","close":683.98,"g":"b"},{"date":"27-Apr-12","close":703,"g":"b"},{"date":"26-Apr-12","close":707.7,"g":"b"},{"date":"25-Apr-12","close":710,"g":"b"},{"date":"24-Apr-12","close":660.28,"g":"b"},{"date":"23-Apr-12","close":671.7,"g":"b"},{"date":"20-Apr-12","close":672.98,"g":"b"},{"date":"19-Apr-12","close":687.44,"g":"b"},{"date":"18-Apr-12","close":708.34,"g":"b"},{"date":"17-Apr-12","close":709.7,"g":"b"},{"date":"16-Apr-12","close":680.13,"g":"b"},{"date":"13-Apr-12","close":705.23,"g":"b"},{"date":"12-Apr-12","close":722.77,"g":"b"},{"date":"11-Apr-12","close":726.2,"g":"b"},{"date":"10-Apr-12","close":728.44,"g":"b"},{"date":"9-Apr-12","close":736.23,"g":"b"},{"date":"5-Apr-12","close":733.68,"g":"b"},{"date":"4-Apr-12","close":724.31,"g":"b"},{"date":"3-Apr-12","close":729.32,"g":"b"},{"date":"2-Apr-12","close":718.63,"g":"b"},{"date":"30-Mar-12","close":699.55,"g":"b"},{"date":"29-Mar-12","close":709.86,"g":"b"},{"date":"28-Mar-12","close":717.62,"g":"b"},{"date":"27-Mar-12","close":714.48,"g":"b"},{"date":"26-Mar-12","close":706.98,"g":"b"},{"date":"23-Mar-12","close":696.05,"g":"b"},{"date":"22-Mar-12","close":699.34,"g":"b"},{"date":"21-Mar-12","close":702.5,"g":"b"},{"date":"20-Mar-12","close":705.96,"g":"b"},{"date":"19-Mar-12","close":701.1,"g":"b"},{"date":"16-Mar-12","close":685.57,"g":"b"},{"date":"15-Mar-12","close":685.56,"g":"b"},{"date":"14-Mar-12","close":689.58,"g":"b"},{"date":"13-Mar-12","close":668.1,"g":"b"},{"date":"12-Mar-12","close":652,"g":"b"},{"date":"9-Mar-12","close":645.17,"g":"b"},{"date":"8-Mar-12","close":641.99,"g":"b"},{"date":"7-Mar-12","close":630.69,"g":"b"},{"date":"6-Mar-12","close":630.26,"g":"b"},{"date":"5-Mar-12","close":633.16,"g":"b"},{"date":"2-Mar-12","close":645.18,"g":"b"},{"date":"1-Mar-12","close":644.47,"g":"b"},{"date":"2-May-11","close":446.28,"g":"b"},{"date":"29-Apr-11","close":450.13,"g":"b"},{"date":"28-Apr-11","close":446.75,"g":"b"},{"date":"27-Apr-11","close":450.15,"g":"b"},{"date":"26-Apr-11","close":450.42,"g":"b"},{"date":"25-Apr-11","close":453.01,"g":"b"},{"date":"21-Apr-11","close":450.7,"g":"b"},{"date":"20-Apr-11","close":442.41,"g":"b"},{"date":"19-Apr-11","close":437.86,"g":"b"},{"date":"18-Apr-11","close":431.85,"g":"b"},{"date":"15-Apr-11","close":427.46,"g":"b"},{"date":"14-Apr-11","close":432.42,"g":"b"},{"date":"13-Apr-11","close":436.13,"g":"b"},{"date":"12-Apr-11","close":432.4,"g":"b"},{"date":"11-Apr-11","close":430.8,"g":"b"},{"date":"8-Apr-11","close":435.06,"g":"b"},{"date":"7-Apr-11","close":438.08,"g":"b"},{"date":"6-Apr-11","close":438.04,"g":"b"},{"date":"5-Apr-11","close":438.89,"g":"b"},{"date":"4-Apr-11","close":441.19,"g":"b"},{"date":"1-Apr-11","close":444.56,"g":"b"},{"date":"31-Mar-11","close":448.51,"g":"b"},{"date":"30-Mar-11","close":448.63,"g":"b"},{"date":"29-Mar-11","close":450.96,"g":"b"},{"date":"28-Mar-11","close":450.44,"g":"b"},{"date":"25-Mar-11","close":451.54,"g":"b"},{"date":"24-Mar-11","close":444.97,"g":"b"},{"date":"23-Mar-11","close":439.19,"g":"b"},{"date":"22-Mar-11","close":441.2,"g":"b"},{"date":"21-Mar-11","close":439.3,"g":"b"},{"date":"18-Mar-11","close":430.67,"g":"b"},{"date":"17-Mar-11","close":434.64,"g":"b"},{"date":"16-Mar-11","close":430.01,"g":"b"},{"date":"15-Mar-11","close":445.43,"g":"b"},{"date":"14-Mar-11","close":453.56,"g":"b"},{"date":"11-Mar-11","close":451.99,"g":"b"},{"date":"10-Mar-11","close":446.67,"g":"b"},{"date":"9-Mar-11","close":452.47,"g":"b"},{"date":"8-Mar-11","close":455.76,"g":"b"},{"date":"7-Mar-11","close":455.36,"g":"b"},{"date":"4-Mar-11","close":460,"g":"b"},{"date":"3-Mar-11","close":459.56,"g":"b"},{"date":"2-Mar-11","close":452.12,"g":"b"},{"date":"1-Mar-11","close":449.31,"g":"b"},{"date":"3-May-10","close":366.35,"g":"b"},{"date":"30-Apr-10","close":361.09,"g":"b"},{"date":"29-Apr-10","close":368.64,"g":"b"},{"date":"28-Apr-10","close":361.6,"g":"b"},{"date":"27-Apr-10","close":362.04,"g":"b"},{"date":"26-Apr-10","close":369.5,"g":"b"},{"date":"23-Apr-10","close":370.83,"g":"b"},{"date":"22-Apr-10","close":366.47,"g":"b"},{"date":"21-Apr-10","close":359.22,"g":"b"},{"date":"20-Apr-10","close":344.59000000000003,"g":"b"},{"date":"19-Apr-10","close":347.07,"g":"b"},{"date":"16-Apr-10","close":347.4,"g":"b"},{"date":"15-Apr-10","close":348.91999999999996,"g":"b"},{"date":"14-Apr-10","close":345.69,"g":"b"},{"date":"13-Apr-10","close":342.43,"g":"b"},{"date":"12-Apr-10","close":342.28999999999996,"g":"b"},{"date":"9-Apr-10","close":341.78999999999996,"g":"b"},{"date":"8-Apr-10","close":339.95,"g":"b"},{"date":"7-Apr-10","close":340.6,"g":"b"},{"date":"6-Apr-10","close":339.53999999999996,"g":"b"},{"date":"5-Apr-10","close":338.49,"g":"b"},{"date":"2-Apr-10","close":335.97,"g":"b"},{"date":"1-Apr-10","close":335.97,"g":"b"},{"date":"31-Mar-10","close":335,"g":"b"},{"date":"30-Mar-10","close":335.84000000000003,"g":"b"},{"date":"29-Mar-10","close":332.39,"g":"b"},{"date":"26-Mar-10","close":330.9,"g":"b"},{"date":"25-Mar-10","close":326.65,"g":"b"},{"date":"24-Mar-10","close":329.37,"g":"b"},{"date":"23-Mar-10","close":328.36,"g":"b"},{"date":"22-Mar-10","close":324.75,"g":"b"},{"date":"19-Mar-10","close":322.25,"g":"b"},{"date":"18-Mar-10","close":324.65,"g":"b"},{"date":"17-Mar-10","close":324.12,"g":"b"},{"date":"16-Mar-10","close":324.45,"g":"b"},{"date":"15-Mar-10","close":323.84000000000003,"g":"b"},{"date":"12-Mar-10","close":326.6,"g":"b"},{"date":"11-Mar-10","close":325.5,"g":"b"},{"date":"10-Mar-10","close":324.84000000000003,"g":"b"},{"date":"9-Mar-10","close":323.02,"g":"b"},{"date":"8-Mar-10","close":319.08000000000004,"g":"b"},{"date":"5-Mar-10","close":318.95,"g":"b"},{"date":"4-Mar-10","close":310.71000000000004,"g":"b"},{"date":"3-Mar-10","close":309.33000000000004,"g":"b"},{"date":"2-Mar-10","close":308.85,"g":"b"},{"date":"1-Mar-10","close":308.99,"g":"b"},{"date":"1-May-09","close":227.24,"g":"b"},{"date":"30-Apr-09","close":225.82999999999998,"g":"b"},{"date":"29-Apr-09","close":225.14,"g":"b"},{"date":"28-Apr-09","close":223.9,"g":"b"},{"date":"27-Apr-09","close":224.73000000000002,"g":"b"},{"date":"24-Apr-09","close":223.9,"g":"b"},{"date":"23-Apr-09","close":225.4,"g":"b"},{"date":"22-Apr-09","close":221.51,"g":"b"},{"date":"21-Apr-09","close":221.76,"g":"b"},{"date":"20-Apr-09","close":220.5,"g":"b"},{"date":"17-Apr-09","close":223.42000000000002,"g":"b"},{"date":"16-Apr-09","close":221.45,"g":"b"},{"date":"15-Apr-09","close":217.64,"g":"b"},{"date":"14-Apr-09","close":218.31,"g":"b"},{"date":"13-Apr-09","close":220.22,"g":"b"},{"date":"10-Apr-09","close":219.57,"g":"b"},{"date":"9-Apr-09","close":219.57,"g":"b"},{"date":"8-Apr-09","close":216.32,"g":"b"},{"date":"7-Apr-09","close":215,"g":"b"},{"date":"6-Apr-09","close":218.45,"g":"b"},{"date":"3-Apr-09","close":215.99,"g":"b"},{"date":"2-Apr-09","close":212.70999999999998,"g":"b"},{"date":"1-Apr-09","close":208.69,"g":"b"},{"date":"31-Mar-09","close":205.12,"g":"b"},{"date":"30-Mar-09","close":204.49,"g":"b"},{"date":"27-Mar-09","close":206.85,"g":"b"},{"date":"26-Mar-09","close":209.87,"g":"b"},{"date":"25-Mar-09","close":206.49,"g":"b"},{"date":"24-Mar-09","close":206.5,"g":"b"},{"date":"23-Mar-09","close":207.66,"g":"b"},{"date":"20-Mar-09","close":201.59,"g":"b"},{"date":"19-Mar-09","close":201.62,"g":"b"},{"date":"18-Mar-09","close":201.51999999999998,"g":"b"},{"date":"17-Mar-09","close":199.66,"g":"b"},{"date":"16-Mar-09","close":195.42000000000002,"g":"b"},{"date":"13-Mar-09","close":195.93,"g":"b"},{"date":"12-Mar-09","close":196.35,"g":"b"},{"date":"11-Mar-09","close":192.68,"g":"b"},{"date":"10-Mar-09","close":188.63,"g":"b"},{"date":"9-Mar-09","close":183.11,"g":"b"},{"date":"6-Mar-09","close":185.3,"g":"b"},{"date":"5-Mar-09","close":188.84,"g":"b"},{"date":"4-Mar-09","close":191.17000000000002,"g":"b"},{"date":"3-Mar-09","close":188.37,"g":"b"},{"date":"2-Mar-09","close":187.94,"g":"b"}]
 		};
 
-	line.render(data);
+	progression.render(
+		data,
+		{
+			onClick:function(items){console.log(items);},
+			width:960,
+			height:320,
+			xUnit:"years", /*["seconds","minutes","hours","days","months","years","mondays...sundays"]*/
+			xStep:1
+		}
+	);
 	/* las medidas las puede tener el <div> y la dona se adaptará a su contendor */
 </script>
