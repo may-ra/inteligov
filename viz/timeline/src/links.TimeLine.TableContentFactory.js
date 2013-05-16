@@ -3,7 +3,8 @@
     links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
     links.Timeline.TableContentFactory.prototype.get = function (data) {
-
+        delete data.imgB64;
+        delete data.desc;
         var borderColor = data.color.toString(),
             $table = $(
                 "<div>", {
@@ -77,10 +78,10 @@
                             "border-style": "outset",
                             "border-width": "1px 1px 1px 1px",
                             position: "relative",
-                            padding: "2px 0 0 6px",
+                            padding: "0 0 0 6px",
                             height: "20px",
                             left: data.imgB64 ? "2px" : "2px",
-                            width: data.imgB64 ? "140px" : "172px"
+                            width: data.imgB64 ? "140px" : "180px"
                         },
                         text: data.title,
                         "class": "timeline-event-detail timeline-event-detail-title"
