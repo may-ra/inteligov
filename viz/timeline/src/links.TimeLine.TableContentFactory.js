@@ -3,8 +3,6 @@
     links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
     links.Timeline.TableContentFactory.prototype.get = function (data) {
-        delete data.imgB64;
-        delete data.desc;
         var borderColor = data.color.toString(),
             $table = $(
                 "<div>", {
