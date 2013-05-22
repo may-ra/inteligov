@@ -6459,6 +6459,10 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
     links.Timeline.TableContentFactory.prototype = new links.Timeline.ContentFactory(type);
 
     links.Timeline.TableContentFactory.prototype.get = function (data) {
+        delete data.desc;
+        //delete data.label;
+        delete data.imgB64;
+        //delete data.title;
         var borderColor = data.color.toString(),
             $table = $(
                 "<div>", {
@@ -6511,7 +6515,6 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                         width: data.imgB64 ? "150px" : "182px",
                         "text-align": "left",
                         position: "relative",
-                        left: data.imgB64 ? "32px" : "0px",
                         top: data.imgB64 ? data.label ? "0px" : "12px" : "0px"
                     },
                 }).append(data.title ?
@@ -6521,6 +6524,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                             color: data.labelColor,
                             "font-size": "9px",
                             padding: "0 0 0 5px",
+                            left: data.imgB64 ? "32px":"0px",
                             position: "relative"
                         },
                         text: data.label,
@@ -6532,10 +6536,10 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                             "border-style": "outset",
                             "border-width": "1px 1px 1px 1px",
                             position: "relative",
-                            padding: "0 0 0 6px",
+                            padding: data.imgB64?"0 0 0 6px":0,
                             height: "20px",
-                            left: data.imgB64 ? "2px" : "2px",
-                            width: data.imgB64 ? "140px" : "180px"
+                            left: data.imgB64 ? "33px" : "0px",
+                            width: data.imgB64 ? "141px" : "180px"
                         },
                         text: data.title,
                         "class": "timeline-event-detail timeline-event-detail-title"
@@ -6573,7 +6577,6 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                 $(
                 "<div>", {
                 css: {
-                    "font-size": "10px",
                     height: "24px",
                     padding: 0,
                     top: data.title ? data.label ? null : "32px" : null
@@ -6595,7 +6598,8 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     "white-space": "pre-wrap",
                     "word-wrap": "break-word",
                     display: data.imgB64 ? data.label ? "inline" : null : "inline",
-                    height: "100%"
+                    height: "100%",
+                    "font-size": "9px"
                 },
                 text: data.desc
             })))) : null;
