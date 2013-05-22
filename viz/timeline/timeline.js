@@ -6512,7 +6512,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                         width: data.imgB64 ? "150px" : "182px",
                         "text-align": "left",
                         position: "relative",
-                        top: data.imgB64 ? data.label ? "0px" : "12px" : "0px"
+                        top: data.imgB64 ? data.label ? "4px" : "12px" : "0px"
                     },
                 }).append(data.title ?
                     data.label ? [$(
@@ -6535,8 +6535,8 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                             position: "relative",
                             padding: data.imgB64?"0 0 0 6px":0,
                             height: "20px",
-                            left: data.imgB64 ? "33px" : "0px",
-                            width: data.imgB64 ? "141px" : "180px"
+                            width: data.imgB64 ? "148px" : "180px",
+                            display: data.imgB64 ? "inline-block" : null
                         },
                         text: data.title,
                         "class": "timeline-event-detail timeline-event-detail-title"
@@ -6574,7 +6574,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                 $(
                 "<div>", {
                 css: {
-                    height: "24px",
+                    height: "32px",
                     padding: 0,
                     top: data.title ? data.label ? null : "32px" : null
                 }
@@ -6586,7 +6586,8 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     "border-style": "solid",
                     "margin-left": data.title ? "16px" : "0px",
                     "border-width": "0 1px 1px 1px",
-                    "word-wrap": "break-word"
+                    "word-wrap": "break-word",
+                    height: "100%"
                 },
             }).append(
                 $(
