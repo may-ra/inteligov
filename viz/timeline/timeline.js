@@ -879,7 +879,7 @@ links.Timeline.prototype.draw = function(data, options) {
     else if (this.firstDraw) {
         this.setVisibleChartRangeAuto();
     }
-
+    this.setVisibleChartRangeNow();
     this.firstDraw = false;
 };
 
@@ -6098,7 +6098,11 @@ links.Timeline.StepDate.prototype.next = function() {
                 this.current.setHours(h - (h % this.step));
                 break;
             case links.Timeline.StepDate.SCALE.WEEKDAY:      // intentional fall through
-            case links.Timeline.StepDate.SCALE.DAY:          this.current.setDate(this.current.getDate() + this.step); break;
+            case links.Timeline.StepDate.SCALE.DAY:          
+                this.current.setDate(this.current.getDate() + this.step); 
+                // Internal fix for skip the 31 overlap
+                this.current.getDate() > 29 && this.step > 1 && this.current.setDate(this.current.getDate()+this.step);
+                break;
             case links.Timeline.StepDate.SCALE.MONTH:        this.current.setMonth(this.current.getMonth() + this.step); break;
             case links.Timeline.StepDate.SCALE.YEAR:         this.current.setFullYear(this.current.getFullYear() + this.step); break;
             default:                      break;
@@ -6111,7 +6115,12 @@ links.Timeline.StepDate.prototype.next = function() {
             case links.Timeline.StepDate.SCALE.MINUTE:       this.current.setMinutes(this.current.getMinutes() + this.step); break;
             case links.Timeline.StepDate.SCALE.HOUR:         this.current.setHours(this.current.getHours() + this.step); break;
             case links.Timeline.StepDate.SCALE.WEEKDAY:      // intentional fall through
-            case links.Timeline.StepDate.SCALE.DAY:          this.current.setDate(this.current.getDate() + this.step); break;
+            case links.Timeline.StepDate.SCALE.DAY:          
+                this.current.setDate(this.current.getDate() + this.step); 
+
+                // Internal fix for skip the 31 overlap
+                this.current.getDate() > 29 && this.step > 1 && this.current.setDate(this.current.getDate()+this.step);
+                break;
             case links.Timeline.StepDate.SCALE.MONTH:        this.current.setMonth(this.current.getMonth() + this.step); break;
             case links.Timeline.StepDate.SCALE.YEAR:         this.current.setFullYear(this.current.getFullYear() + this.step); break;
             default:                      break;

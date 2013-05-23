@@ -26,7 +26,7 @@ links.Timeline.prototype.draw = function(data, options) {
     else if (this.firstDraw) {
         this.setVisibleChartRangeAuto();
     }
-
+    this.setVisibleChartRangeNow();
     this.firstDraw = false;
 };
 
