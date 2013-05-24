@@ -63,7 +63,7 @@ links.Timeline.ItemDot.prototype.unselect = function () {
  */
 links.Timeline.ItemDot.prototype.createDOM = function () {
     // background box
-    var divBox = document.createElement("DIV");
+    var divBox = document.createElement("DIV"), that = this;
     divBox.style.position = "absolute";
 
     // contents box, right from the dot
@@ -78,8 +78,39 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
     divDot.style.width = "0px";
     divDot.style.height = "0px";
     divDot.style.borderColor = this.color.toString();
-    divBox.appendChild(divDot);
 
+    //sier
+    // Add an event for showing a pupop with info
+    links.Timeline.addEventListener(divDot,"mouseover",
+        function(){
+            var divGtip = document.createElement("div"), 
+                divTooltip = document.createElement("div"),
+                divTriangule = document.createElement("div");
+
+            divGtip.className = "timeline-event-tooltip";
+            $(this).mouseover(function(){$(divGtip).css({opacity:0.8,display:"none"}).fadeIn(300);});
+
+            divTooltip.className = "timeline-event-tooltip-content";
+            divTooltip.textContent = that.label;
+            divTooltip.style["border-color"] = that.color.toString();
+
+            divTriangule.className = "timeline-event-tooltip-base";
+
+            divGtip.appendChild(divTooltip);
+            divGtip.appendChild(divTriangule);
+
+            divBox.appendChild(divGtip);
+            //divBox
+        }
+    );
+    links.Timeline.addEventListener(divDot,"mouseout",
+        function(){
+            $(divBox).find(".timeline-event-tooltip")[0].remove();
+
+        }
+    );
+
+    divBox.appendChild(divDot);
     divBox.content = divContent;
     divBox.dot = divDot;
 
@@ -125,6 +156,7 @@ links.Timeline.ItemDot.prototype.hideDOM = function () {
         }
         this.rendered = false;
     }
+    
 };
 
 /**

@@ -178,3 +178,25 @@ div.timeline-navigation-move-left {
 div.timeline-navigation-move-right {
     background: url('img/16/moveright.png') no-repeat center;
 }
+
+div.timeline-event-tooltip {
+    position: absolute;
+    padding: 5px;
+    width: auto;
+    height: 12px;
+    top: -24px;
+}
+
+div.timeline-event-tooltip-base {
+    background-color: black;
+    display: inline;
+}
+
+div.timeline-event-tooltip-content {
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 9px;
+    margin: 0;
+    padding: 2;
+}
