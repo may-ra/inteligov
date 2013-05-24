@@ -75,7 +75,9 @@ div.timeline-event-dot {
     border-style: solid;
     border-width: 5px;
     border-radius: 5px;
+    background: url('x.png');
     -moz-border-radius: 5px;  /* For Firefox 3.6 and older */
+
 }
 
 div.timeline-event-range {
@@ -160,7 +162,7 @@ div.timeline-navigation-new {
 div.timeline-navigation-delete {
     padding: 0px;
     padding-left: 5px;
-    background: url('img/16/delete.png') no-repeat center;
+    background: no-repeat center;
 }
 
 div.timeline-navigation-zoom-in {
@@ -184,12 +186,25 @@ div.timeline-event-tooltip {
     padding: 5px;
     width: auto;
     height: 12px;
-    top: -24px;
+    top: -20px;
+    left: 4px;
+    white-space: nowrap;
+    display: inline-block;
 }
 
 div.timeline-event-tooltip-base {
-    background-color: black;
-    display: inline;
+ /*   display: inline;
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -6px;
+    top:14px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid red;
+    line-height:0px;
+    z-index: -1;
+*/
 }
 
 div.timeline-event-tooltip-content {

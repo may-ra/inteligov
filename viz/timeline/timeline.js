@@ -5327,12 +5327,15 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
     var divBox = document.createElement("DIV"), that = this;
     divBox.style.position = "absolute";
 
-    // contents box, right from the dot
-    var divContent = document.createElement("DIV"), dotLabel = this.title || "Evento";
-    $(divContent).append(dotLabel).css({"font-size":"10px"});
+    // contents box, right from the dot 
+    var divContent = document.createElement("DIV"); //dotLabel = this.title || "Evento";
+    
     divContent.className = "timeline-event-content";
     divBox.appendChild(divContent);
-
+    
+    //Image besides icon.
+    //$(divBox).append($("<img>",{src:"o.ico"}));
+    
     // dot at start
     var divDot = document.createElement("DIV");
     divDot.style.position = "absolute";
@@ -5341,18 +5344,20 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
     divDot.style.borderColor = this.color.toString();
 
     //sier
-    // Add an event for showing a pupop with info
-    links.Timeline.addEventListener(divDot,"mouseover",
+    // Add an event for showing a tooltip with info
+    links.Timeline.addEventListener(divBox,"mouseover",
         function(){
             var divGtip = document.createElement("div"), 
                 divTooltip = document.createElement("div"),
                 divTriangule = document.createElement("div");
 
             divGtip.className = "timeline-event-tooltip";
-            $(this).mouseover(function(){$(divGtip).css({opacity:0.8,display:"none"}).fadeIn(300);});
-
+            
+            $(this).mouseover(function(){$(divGtip).css({opacity:0.8,display:"none"}).fadeIn(280);});
+            $(this).mouseover();
+            
             divTooltip.className = "timeline-event-tooltip-content";
-            divTooltip.textContent = that.label;
+            divTooltip.textContent = that.title;
             divTooltip.style["border-color"] = that.color.toString();
 
             divTriangule.className = "timeline-event-tooltip-base";
@@ -5361,13 +5366,11 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
             divGtip.appendChild(divTriangule);
 
             divBox.appendChild(divGtip);
-            //divBox
         }
     );
-    links.Timeline.addEventListener(divDot,"mouseout",
+    links.Timeline.addEventListener(divBox,"mouseout",
         function(){
             $(divBox).find(".timeline-event-tooltip")[0].remove();
-
         }
     );
 
@@ -5433,7 +5436,7 @@ links.Timeline.ItemDot.prototype.updateDOM = function () {
         // update contents
         //divBox.firstChild.innerHTML = this.content;
 
-        // update class
+        // update class // commented the class to prevent the dot visible.
         divDot.className  = "timeline-event timeline-event-dot";
 
         if (this.isCluster) {
