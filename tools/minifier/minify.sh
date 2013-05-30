@@ -16,7 +16,7 @@ css(){
         if [ $? -eq 0 ]; then
             continue
         fi
-        java -Xmx3072m -XX:MaxPermSize=512m -jar $YUI --type css $i -o $(echo $i | sed 's/\.[^\.]*$//').min.css
+        java -Xmx2048m -XX:MaxPermSize=2g -Xss256m -jar $YUI --type css $i -o $(echo $i | sed 's/\.[^\.]*$//').min.css
 	done
 }
 
@@ -29,7 +29,7 @@ js(){
 		if [  $? -eq 0 ]; then
 			continue
 		fi
-		java -Xmx3072m -XX:MaxPermSize=512m -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
+		java -Xmx2048m -XX:MaxPermSize=2g -Xss256m -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
 	done
 }
 
@@ -56,9 +56,9 @@ case $1 in
 		for i in $@
 		do
 			if [ ${i##*.} = "js" ]; then
-				java -Xmx3072m -XX:MaxPermSize=512m -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
+				java -Xmx2048m -XX:MaxPermSize=2m -Xss256m -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
 			elif [ ${i##*.} = "css" ]; then
-				java -Xmx3072m -XX:MaxPermSize=512m -jar $YUI --type css $i -o $(echo $i | sed 's/\.[^\.]*$//').min.css
+				java -Xmx2048m -XX:MaxPermSize=2g -Xss256m -jar $YUI --type css $i -o $(echo $i | sed 's/\.[^\.]*$//').min.css
 			fi
 		done
 		;;
