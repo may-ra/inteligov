@@ -12,7 +12,11 @@ css(){
 	declare ORIGIN
 	for i in $CSS
 	do
-		java -jar $YUI --type css $i -o '.css$:.min.css'
+        echo $i | grep '.min.' > /dev/null
+        if [ $? -eq 0 ]; then
+            continue
+        fi
+        java -Xmx3072m -XX:MaxPermSize=512m -jar $YUI --type css $i -o $(echo $i | sed 's/\.[^\.]*$//').min.css
 	done
 }
 
@@ -25,7 +29,7 @@ js(){
 		if [  $? -eq 0 ]; then
 			continue
 		fi
-		java -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
+		java -Xmx3072m -XX:MaxPermSize=512m -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
 	done
 }
 
@@ -41,7 +45,7 @@ case $1 in
 		js
 		;;
 	clean )
-		find . -name "*.min.*" -exec rm {} 
+		find . -name "*.min.*" -delete 
 		;;
 	files )
 		declare CLOS=`ls $PWD/compiler*.jar`
@@ -52,9 +56,9 @@ case $1 in
 		for i in $@
 		do
 			if [ ${i##*.} = "js" ]; then
-				java -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
+				java -Xmx3072m -XX:MaxPermSize=512m -jar $CLOS --js $i --js_output_file ${i%.*}.min.js
 			elif [ ${i##*.} = "css" ]; then
-				java -jar $YUI --type css $i -o '.css$:.min.css'
+				java -Xmx3072m -XX:MaxPermSize=512m -jar $YUI --type css $i -o $(echo $i | sed 's/\.[^\.]*$//').min.css
 			fi
 		done
 		;;
