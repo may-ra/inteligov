@@ -6557,7 +6557,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                         "text-align": "left",
                         position: "relative",
                         top: data.imgB64 ? data.label ? "4px" : "12px" : "0px"
-                    },
+                    }
                 }).append(data.title ?
                     data.label ? [$(
                         "<div>", {
@@ -6632,7 +6632,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     "border-width": "0 1px 1px 1px",
                     "word-wrap": "break-word",
                     height: "100%"
-                },
+                }
             }).append(
                 $(
                 "<p>", {
