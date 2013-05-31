@@ -827,7 +827,7 @@ links.Timeline.formatData = function(data) {
         events = element.events || [];
 
         newElement = {};
-        newElement.type = element.type;
+        newElement.type = element['data_type'];
         newElement.ek = element.ek;
 
         newElement.title = dataTmp.title;
@@ -4034,8 +4034,10 @@ links.Timeline.prototype.createItem = function(itemData, type) {
         title: itemData.title,
         desc: itemData.desc,
         imgB64: itemData.imgB64,
-        imgClass: itemData.imgClass
+        imgClass: itemData.imgClass,
+        eventType:itemData.type
     };
+    
     // TODO: optimize this, when creating an item, all data is copied twice...
 
     // TODO: is initialTop needed?
@@ -4087,7 +4089,8 @@ links.Timeline.prototype.changeItem = function (index, itemData, preventRender, 
         'desc': itemData.hasOwnProperty('desc') ? itemData.desc : oldItem.desc,
         'title': itemData.hasOwnProperty('title') ? itemData.title : oldItem.title,
         'imgB64': itemData.hasOwnProperty('imgB64') ? itemData.imgB64 : oldItem.imgB64,
-        'imgClass': itemData.hasOwnProperty('imgClass') ? itemData.imgClass : oldItem.imgClass
+        'imgClass': itemData.hasOwnProperty('imgClass') ? itemData.imgClass : oldItem.imgClass,
+        'eventType': itemData.hasOwnProperty('eventType') ? itemData.eventType : oldItem.eventType
     }, type);
     this.items[index] = newItem;
 
@@ -4753,6 +4756,7 @@ links.Timeline.Item = function (data, options) {
         this.desc = data.desc;
         this.imgB64 = data.imgB64;
         this.imgClass = data.imgClass;
+        this.eventType = data.eventType;
     }
     this.top = 0;
     this.left = 0;
@@ -5332,10 +5336,21 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
     
     divContent.className = "timeline-event-content";
     divBox.appendChild(divContent);
-    
-    //Image besides icon.
-    //$(divBox).append($("<img>",{src:"o.ico"}));
-    
+
+    console.log(this);
+
+    switch(this.eventType){
+        case "subject":
+            $(divBox).append($("<img>",{src:"ico/person.png"}));
+            break;
+        case "subject.instance":
+            $(divBox).append($("<img>",{src:"ico/inbox.ico"}));
+            break;
+        default:
+            $(divBox).append($("<img>",{src:"ico/bookmark.png"}));
+            break; 
+    }
+
     // dot at start
     var divDot = document.createElement("DIV");
     divDot.style.position = "absolute";
@@ -5374,7 +5389,7 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
         }
     );
 
-    divBox.appendChild(divDot);
+    //divBox.appendChild(divDot);
     divBox.content = divContent;
     divBox.dot = divDot;
 
@@ -6557,7 +6572,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                         "text-align": "left",
                         position: "relative",
                         top: data.imgB64 ? data.label ? "4px" : "12px" : "0px"
-                    }
+                    },
                 }).append(data.title ?
                     data.label ? [$(
                         "<div>", {
@@ -6632,7 +6647,7 @@ links.Timeline.ContentGenerator.prototype.setFactory = function(factory){
                     "border-width": "0 1px 1px 1px",
                     "word-wrap": "break-word",
                     height: "100%"
-                }
+                },
             }).append(
                 $(
                 "<p>", {

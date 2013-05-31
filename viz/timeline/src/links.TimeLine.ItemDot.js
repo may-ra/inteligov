@@ -71,10 +71,21 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
     
     divContent.className = "timeline-event-content";
     divBox.appendChild(divContent);
-    
-    //Image besides icon.
-    //$(divBox).append($("<img>",{src:"o.ico"}));
-    
+
+    console.log(this);
+
+    switch(this.eventType){
+        case "subject":
+            $(divBox).append($("<img>",{src:"ico/person.png"}));
+            break;
+        case "subject.instance":
+            $(divBox).append($("<img>",{src:"ico/inbox.ico"}));
+            break;
+        default:
+            $(divBox).append($("<img>",{src:"ico/bookmark.png"}));
+            break; 
+    }
+
     // dot at start
     var divDot = document.createElement("DIV");
     divDot.style.position = "absolute";
@@ -113,7 +124,7 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
         }
     );
 
-    divBox.appendChild(divDot);
+    //divBox.appendChild(divDot);
     divBox.content = divContent;
     divBox.dot = divDot;
 

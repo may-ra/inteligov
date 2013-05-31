@@ -3181,8 +3181,10 @@ links.Timeline.prototype.createItem = function(itemData, type) {
         title: itemData.title,
         desc: itemData.desc,
         imgB64: itemData.imgB64,
-        imgClass: itemData.imgClass
+        imgClass: itemData.imgClass,
+        eventType:itemData.type
     };
+    
     // TODO: optimize this, when creating an item, all data is copied twice...
 
     // TODO: is initialTop needed?
@@ -3234,7 +3236,8 @@ links.Timeline.prototype.changeItem = function (index, itemData, preventRender, 
         'desc': itemData.hasOwnProperty('desc') ? itemData.desc : oldItem.desc,
         'title': itemData.hasOwnProperty('title') ? itemData.title : oldItem.title,
         'imgB64': itemData.hasOwnProperty('imgB64') ? itemData.imgB64 : oldItem.imgB64,
-        'imgClass': itemData.hasOwnProperty('imgClass') ? itemData.imgClass : oldItem.imgClass
+        'imgClass': itemData.hasOwnProperty('imgClass') ? itemData.imgClass : oldItem.imgClass,
+        'eventType': itemData.hasOwnProperty('eventType') ? itemData.eventType : oldItem.eventType
     }, type);
     this.items[index] = newItem;
 

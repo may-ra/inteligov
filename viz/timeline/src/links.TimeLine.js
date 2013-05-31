@@ -827,7 +827,7 @@ links.Timeline.formatData = function(data) {
         events = element.events || [];
 
         newElement = {};
-        newElement.type = element.type;
+        newElement.type = element['data_type'];
         newElement.ek = element.ek;
 
         newElement.title = dataTmp.title;
