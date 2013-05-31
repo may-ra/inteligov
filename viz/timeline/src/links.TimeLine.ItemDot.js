@@ -76,13 +76,13 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
 
     switch(this.eventType){
         case "subject":
-            $(divBox).append($("<img>",{src:"ico/person.png"}));
+            $(divBox).append($("<img>",{src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAPCAQAAACVKo38AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBR8QAQJJ3Z71AAAAWUlEQVQY07WPUQqAMAxDX0cvYa/hCXZ/vcZ2jPlR1LnK/DIQCA1NCHxhaVGrS4PLdF1Fwc4DnUlFYctvFYI8e250gcEigUeOBIG1FYyRuySAkiN/+JpMnuAAG1MymgZ0HgAAAAAASUVORK5CYII="}));
             break;
         case "subject.instance":
-            $(divBox).append($("<img>",{src:"ico/inbox.ico"}));
+            $(divBox).append($("<img>",{src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAQAAAA3IEfJAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBR8POxZh1HC8AAAAn0lEQVQY03WPPQrCYAyGn7RQ8ae0gkug4AkEwQO0q7fwOB7B21Q3HZw8QBXcXepSlM/ha7BIzZI375PAGwBAEy3VqdNSE++Ib9l+mkdAw+NwLzpg4SIvaLgIQOBHs78q4E+1IKzNMNWC09qAKTFj5Xw/S+dCc61sQSvNAUJN4u1gN0stxSh9bYZpfJTsOpmPfxI9qW+ydGFP2Dfiiv4/Pnm0IFKm6Cj/AAAAAElFTkSuQmCC"}));
             break;
         default:
-            $(divBox).append($("<img>",{src:"ico/bookmark.png"}));
+            $(divBox).append($("<img>",{src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAQAAABedl5ZAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBR8QABHUeO5qAAAAXklEQVQY083MsQ2AIBSE4R9DYeIEusazJozhPu7HAtAzxlkQ1GjsvfK+3MFnHMCsZ10deIDltajA8H34P5rKvk3l4SZTyClqTDFkk+lGIacoD/INT+oAHU+6oKFWgANsOSMu0VtZ5QAAAABJRU5ErkJggg=="}));
             break; 
     }
 
