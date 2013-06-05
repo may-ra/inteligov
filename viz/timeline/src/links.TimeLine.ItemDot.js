@@ -24,16 +24,16 @@ links.Timeline.ItemDot.prototype.reflow = function () {
     var dom = this.dom,
         dotHeight = dom.dot.offsetHeight,
         dotWidth = dom.dot.offsetWidth,
-        contentHeight = dom.content.offsetHeight,
+        //contentHeight = dom.content.offsetHeight,
         resized = (
             (this.dotHeight != dotHeight) ||
-                (this.dotWidth != dotWidth) ||
-                (this.contentHeight != contentHeight)
+                (this.dotWidth != dotWidth) /*||
+                (this.contentHeight != contentHeight)*/
             );
 
     this.dotHeight = dotHeight;
     this.dotWidth = dotWidth;
-    this.contentHeight = contentHeight;
+    //this.contentHeight = contentHeight;
 
     return resized;
 };
@@ -63,43 +63,59 @@ links.Timeline.ItemDot.prototype.unselect = function () {
  */
 links.Timeline.ItemDot.prototype.createDOM = function () {
     // background box
-    var divBox = document.createElement("DIV"), that = this;
+    var divBox = document.createElement("DIV"), that = this, divDot;
     divBox.style.position = "absolute";
-
     // contents box, right from the dot 
     var divContent = document.createElement("DIV"); //dotLabel = this.title || "Evento";
-    
-    divContent.className = "timeline-event-content";
-    divBox.appendChild(divContent);
 
-    console.log(this);
-
-    switch(this.eventType){
+    switch(this.type){
         case "subject":
-            $(divBox).append($("<img>",{src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAPCAQAAACVKo38AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBR8QAQJJ3Z71AAAAWUlEQVQY07WPUQqAMAxDX0cvYa/hCXZ/vcZ2jPlR1LnK/DIQCA1NCHxhaVGrS4PLdF1Fwc4DnUlFYctvFYI8e250gcEigUeOBIG1FYyRuySAkiN/+JpMnuAAG1MymgZ0HgAAAAAASUVORK5CYII="}));
+            //$(divBox).append(
+            divDot = $("<i>",{class:"icon-clipboard-2"})[0];
             break;
+        case "document":
+            //$(divBox).append(
+            divDot = $("<i>",{class:"icon-new"})[0];
+            break;
+        case "record":
+            //$(divBox).append(
+            divDot = $("<i>",{class:"icon-folder"});
+            break;        
         case "subject.instance":
-            $(divBox).append($("<img>",{src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAQAAAA3IEfJAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBR8POxZh1HC8AAAAn0lEQVQY03WPPQrCYAyGn7RQ8ae0gkug4AkEwQO0q7fwOB7B21Q3HZw8QBXcXepSlM/ha7BIzZI375PAGwBAEy3VqdNSE++Ib9l+mkdAw+NwLzpg4SIvaLgIQOBHs78q4E+1IKzNMNWC09qAKTFj5Xw/S+dCc61sQSvNAUJN4u1gN0stxSh9bYZpfJTsOpmPfxI9qW+ydGFP2Dfiiv4/Pnm0IFKm6Cj/AAAAAElFTkSuQmCC"}));
+            //$(divBox).append(
+            //divDot = $("<i>",{class:"icon-exit"});
+            divDot = document.createElement('I');
+            divDot.className = "icon-exit";
+            break;
+        case "subject.task":
+            //$(divBox).append(
+            divDot = $("<i>",{class:"icon-share"})[0];
+            break;
+        case "ptask":
+            //$(divBox).append(
+            divDot = $("<i>",{class:"icon-calendar"})[0];
             break;
         default:
-            $(divBox).append($("<img>",{src:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAQAAABedl5ZAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfdBR8QABHUeO5qAAAAXklEQVQY083MsQ2AIBSE4R9DYeIEusazJozhPu7HAtAzxlkQ1GjsvfK+3MFnHMCsZ10deIDltajA8H34P5rKvk3l4SZTyClqTDFkk+lGIacoD/INT+oAHU+6oKFWgANsOSMu0VtZ5QAAAABJRU5ErkJggg=="}));
-            break; 
-    }
+            divDot = $("<i>",{class:"icon-tag"});
+            break;
+    };
 
+    //divContent.className = "timeline-event-content";
+    //divBox.appendChild(divContent);
     // dot at start
+    /*
     var divDot = document.createElement("DIV");
     divDot.style.position = "absolute";
     divDot.style.width = "0px";
     divDot.style.height = "0px";
     divDot.style.borderColor = this.color.toString();
-
+    */
     //sier
     // Add an event for showing a tooltip with info
     links.Timeline.addEventListener(divBox,"mouseover",
         function(){
             var divGtip = document.createElement("div"), 
-                divTooltip = document.createElement("div"),
-                divTriangule = document.createElement("div");
+                divTooltip = document.createElement("div");
 
             divGtip.className = "timeline-event-tooltip";
             
@@ -110,11 +126,8 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
             divTooltip.textContent = that.title;
             divTooltip.style["border-color"] = that.color.toString();
 
-            divTriangule.className = "timeline-event-tooltip-base";
-
             divGtip.appendChild(divTooltip);
-            divGtip.appendChild(divTriangule);
-
+        
             divBox.appendChild(divGtip);
         }
     );
@@ -123,14 +136,14 @@ links.Timeline.ItemDot.prototype.createDOM = function () {
             $(divBox).find(".timeline-event-tooltip")[0].remove();
         }
     );
+    //this.ico = divDot;
 
-    //divBox.appendChild(divDot);
-    divBox.content = divContent;
+    divBox.appendChild(divDot);
+
+    //divBox.content = divContent;
     divBox.dot = divDot;
-
     this.dom = divBox;
     this.updateDOM();
-
     return divBox;
 };
 
@@ -164,13 +177,13 @@ links.Timeline.ItemDot.prototype.showDOM = function (container) {
  */
 links.Timeline.ItemDot.prototype.hideDOM = function () {
     var dom = this.dom;
+    
     if (dom) {
         if (dom.parentNode) {
             dom.parentNode.removeChild(dom);
         }
         this.rendered = false;
     }
-    
 };
 
 /**
@@ -182,24 +195,23 @@ links.Timeline.ItemDot.prototype.updateDOM = function () {
     if (this.dom) {
         var divBox = this.dom;
         var divDot = divBox.dot;
-
         // update contents
         //divBox.firstChild.innerHTML = this.content;
-
+        
         // update class // commented the class to prevent the dot visible.
-        divDot.className  = "timeline-event timeline-event-dot";
+        //divDot.className  = "timeline-event timeline-event-dot";
 
         if (this.isCluster) {
             links.Timeline.addClassName(divBox, 'timeline-event-cluster');
             links.Timeline.addClassName(divDot, 'timeline-event-cluster');
         }
+        
 
         // add item specific class name when provided
         if (this.className) {
             links.Timeline.addClassName(divBox, this.className);
             links.Timeline.addClassName(divDot, this.className);
         }
-
         // TODO: apply selected className?
     }
 };
@@ -218,7 +230,7 @@ links.Timeline.ItemDot.prototype.updatePosition = function (timeline) {
         dom.style.top = this.top + "px";
         dom.style.left = (left - this.dotWidth / 2) + "px";
 
-        dom.content.style.marginLeft = (1.5 * this.dotWidth) + "px";
+        //dom.content.style.marginLeft = (1.5 * this.dotWidth) + "px";
         //dom.content.style.marginRight = (0.5 * this.dotWidth) + "px"; // TODO
         dom.dot.style.top = ((this.height - this.dotHeight) / 2) + "px";
     }

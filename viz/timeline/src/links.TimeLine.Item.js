@@ -27,7 +27,7 @@ links.Timeline.Item = function (data, options) {
         this.desc = data.desc;
         this.imgB64 = data.imgB64;
         this.imgClass = data.imgClass;
-        this.eventType = data.eventType;
+        this.type = data.type;
     }
     this.top = 0;
     this.left = 0;
